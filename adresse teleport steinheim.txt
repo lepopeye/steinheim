@@ -1,0 +1,8 @@
+1- Steinheim : jaune,bleu,bleu,jaune
+2- Minestein : violet,orange,orange,violet
+3- Lossheim : violet,jaune,blanc,bleu
+4- Animastadt : jaune,gris,gris,jaune
+5- Minehill : bleu,cyan,cyan,bleu
+6- Region Laorienne : vert,orange,orange,vert
+7- ville du desert : jaune,vert,noir,bleu
+8- point de spawn : ???
