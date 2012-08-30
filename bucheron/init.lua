@@ -1,6 +1,7 @@
 --[[
 Bucheron V0.2 par Jat
-Licence GPL
+Licence GPLv2 or later for code
+
 Coupe un tronc si il y a des feuille sur la cime
 Coupe les cactus
 Coupe papyrus 

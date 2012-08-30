@@ -1,5 +1,8 @@
 --[[
---Teleport V0.1 par Jat
+Teleport V0.1 par Jat
+Licence GPLv2 or later for code
+Licence CC-BY-SA for image
+
 --]]
 --Variable utilisé
 local a=0

@@ -1,6 +1,7 @@
 --[[
 Environement by Jat
-Licence GPLv2 or later
+Licence GPLv2 or later for code
+
 --]]
 -- Noyade
 local lestimer={}

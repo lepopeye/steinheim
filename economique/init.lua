@@ -1,5 +1,8 @@
 --[[
 --Economique V0.6 par Jat
+Licence GPLv2 or later for code
+Licence CC-BY-SA for image
+
 Echange des minerai de cuivre et d'argent en monnaie
 Echange l'argent contre des minerai rare ou introuvable
 Effaceur rajouter

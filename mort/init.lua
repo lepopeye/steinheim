@@ -1,6 +1,7 @@
 --[[
--- Mort V0.2 par Jat
-Licence GPL
+Mort V0.2 par Jat
+Licence GPLv2 or later for code
+
 Nettoye tout l'inventaire
 Nettoye la partie craft
 Ajout d'un message dans le ALL quand quelqu'un meurt.
