@@ -11,7 +11,7 @@
 
 
 --minetest.register_node("obsidian:obsidian_block", {
---    tile_images = {"obsidian_block.png"},
+--    tiles = {"obsidian_block.png"},
 --    inventory_image = minetest.inventorycube("obsidian_block.png"),
 --    is_ground_content = true,
     
@@ -56,27 +56,7 @@ minetest.register_craftitem("obsidian:obsidian_shard", {
     on_place_on_ground = craftitem_place_item,
 })
 
-minetest.register_craft({
-    output = 'obsidian:obsidian_knife',
-    recipe = {
-        {'obsidian:obsidian_shard'},
-        {'obsidian:rod'},
-    }
-})
 
-minetest.register_tool("obsidian:obsidian_knife", {
-    image = "obsidian_knife.png",
-    basetime = 1.0,
-    dt_weight = 0.5,
-    dt_crackiness = 2,
-    dt_crumbliness = 4,
-    dt_cuttability = -0.5,
-    basedurability = 80,
-    dd_weight = 0,
-    dd_crackiness = 0,
-    dd_crumbliness = 0,
-    dd_cuttability = 0,
-})
 --------------------------
 --generation de l'obsidian
 --------------------------
@@ -225,6 +205,14 @@ nodenames = {"default:lava_flowing"},
 -- Crafting
 
 minetest.register_craft({
+    output = 'obsidian:obsidian_knife',
+    recipe = {
+        {'obsidian:obsidian_shard'},
+        {'obsidian:rod'},
+    }
+})
+
+minetest.register_craft({
     output = 'obsidian:obsidian_sword',
     recipe = {
         {'obsidian:obsidian_block'},
@@ -261,63 +249,69 @@ minetest.register_craft({
 
 
 -- tools
+minetest.register_tool("obsidian:obsidian_knife", {
+	description = "Obsidian Knife",
+	inventory_image = "obsidian_knife.png",
+	tool_capabilities = {
+		full_punch_interval = 1.0,
+		max_drop_level=0,
+		groupcaps={
+			fleshy={times={[2]=1.10, [3]=0.60}, uses=10, maxlevel=1},
+			snappy={times={[2]=1.00, [3]=0.50}, uses=10, maxlevel=1},
+			choppy={times={[3]=1.00}, uses=20, maxlevel=0}
+		}
+	},
+})
+
 minetest.register_tool("obsidian:obsidian_sword", {
-    image = "os.png",
-    basetime = 0,
-    dt_weight = 3,
-    dt_crackiness = 0,
-    dt_crumbliness = 1,
-    dt_cuttability = -10,
-    basedurability = 1000,
-    dd_weight = 0,
-    dd_crackiness = 0,
-    dd_crumbliness = 0,
-    dd_cuttability = 0,
+	description = "Obsidian Sword",
+	inventory_image = "os.png",
+	tool_capabilities = {
+		full_punch_interval = 1.0,
+		max_drop_level=1,
+		groupcaps={
+			fleshy={times={[1]=2.00, [2]=0.80, [3]=0.40}, uses=10, maxlevel=2},
+			snappy={times={[2]=0.70, [3]=0.30}, uses=40, maxlevel=1},
+			choppy={times={[3]=0.70}, uses=40, maxlevel=0}
+		}
+	},
 })
 minetest.register_tool("obsidian:obsidian_shovel", {
-    image = "osh.png",
-    basetime = 0,
-    dt_weight = 0.5,
-    dt_crackiness = 2,
-    dt_crumbliness = -1.5,
-    dt_cuttability = 0.0,
-    basedurability = 330,
-    dd_weight = 0,
-    dd_crackiness = 0,
-    dd_crumbliness = 0,
-    dd_cuttability = 0,
+	description = "Obsidian Shovel",
+	inventory_image = "osh.png",
+	tool_capabilities = {
+		max_drop_level=1,
+		groupcaps={
+			crumbly={times={[1]=1.50, [2]=0.70, [3]=0.60}, uses=30, maxlevel=2}
+		}
+	},
 })
 minetest.register_tool("obsidian:obsidian_pick", {
-    image = "op.png",
-    basetime = 0,
-    dt_weight = 0,
-    dt_crackiness = -0.5,
-    dt_crumbliness = 2,
-    dt_cuttability = 0,
-    basedurability = 333,
-    dd_weight = 0,
-    dd_crackiness = 0,
-    dd_crumbliness = 0,
-    dd_cuttability = 0,
+	description = "Obsidian Pick",
+	inventory_image = "op.png",
+	tool_capabilities = {
+		max_drop_level=1,
+		groupcaps={
+			cracky={times={[1]=4.00, [2]=1.60, [3]=1.00}, uses=30, maxlevel=2}
+		}
+	},
 })
 minetest.register_tool("obsidian:obsidian_axe", {
-    image = "ob.png",
-    basetime = 0,
-    dt_weight = 3,
-    dt_crackiness = 0,
-    dt_crumbliness = 1,
-    dt_cuttability = -10,
-    basedurability = 1000,
-    dd_weight = 0,
-    dd_crackiness = 0,
-    dd_crumbliness = 0,
-    dd_cuttability = 0,
+	description = "Obsidian Axe",
+	inventory_image = "ob.png",
+	tool_capabilities = {
+		max_drop_level=1,
+		groupcaps={
+			choppy={times={[1]=3.00, [2]=1.60, [3]=1.00}, uses=30, maxlevel=2},
+			fleshy={times={[2]=1.10, [3]=0.60}, uses=40, maxlevel=1}
+		}
+	},
 })
 
 minetest.register_node("obsidian:fence_obsidian", {
     description = "Obsidian Fence",
     drawtype = "fencelike",
-    tile_images = {"obsidian_block.png"},
+    tiles = {"obsidian_block.png"},
     inventory_image = "obsidian_fence.png",
     wield_image = "obsidian_fence.png",
     paramtype = "light",
@@ -326,7 +320,7 @@ minetest.register_node("obsidian:fence_obsidian", {
         type = "fixed",
         fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
     },
-    material = minetest.digprop_glasslike(5.0),
+    groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2},
 })
 minetest.register_craft({
     output = 'tool "obsidian:fence_obsidian"',
@@ -338,7 +332,7 @@ minetest.register_craft({
 minetest.register_node("obsidian:obsidian_ladder", {
     description = "Obsidian Ladder",
     drawtype = "signlike",
-    tile_images = {"obsidian_ladder.png"},
+    tiles = {"obsidian_ladder.png"},
     inventory_image = "obsidian_ladder.png",
     wield_image = "obsidian_ladder.png",
     paramtype = "light",
@@ -352,7 +346,7 @@ minetest.register_node("obsidian:obsidian_ladder", {
         --wall_bottom = = <default>
         --wall_side = = <default>
     },
-    material = minetest.digprop_glasslike(5.0),
+    groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2},
     legacy_wallmounted = true,
 })
 minetest.register_craft({
@@ -364,11 +358,11 @@ minetest.register_craft({
     }
 })
 minetest.register_node("obsidian:obsidian_shelf", {
-    tile_images = {"obsidian_shelf_top.png", "obsidian_shelf_bottom.png",
+    tiles = {"obsidian_shelf_top.png", "obsidian_shelf_bottom.png",
 			"obsidian_shelf_side.png", "obsidian_shelf_side.png",
 			"obsidian_shelf_side.png", "obsidian_shelf_side.png"},
     is_ground_content = true,
-    material = minetest.digprop_glasslike(15.0), -- obsidian is hard as rock PUN
+    groups = {cracky=1}, -- obsidian is hard as rock PUN
     drop = {
         max_items = 1,
         items = {
@@ -484,7 +478,7 @@ LIGHT_MAX = 14
 minetest.register_node("obsidian:torch", {
 	description = "Obsidian Torch",
 	drawtype = "torchlike",
-	tile_images = {"obsidian_torch_floor.png", "obsidian_torch_ceiling.png", "obsidian_torch.png"},
+	tiles = {"obsidian_torch_floor.png", "obsidian_torch_ceiling.png", "obsidian_torch.png"},
 	inventory_image = "obsidian_torch.png",
 	wield_image = "obsidian_torch.png",
 	paramtype = "light",
@@ -498,7 +492,7 @@ minetest.register_node("obsidian:torch", {
 		wall_bottom = {-0.1, -0.5, -0.1, 0.1, -0.5+0.6, 0.1},
 		wall_side = {-0.5, -0.3, -0.1, -0.5+0.3, 0.3, 0.1},
 	},
-	material = minetest.digprop_constanttime(0.0),
+	groups = {choppy=2,dig_immediate=3,flammable=1},
 	legacy_wallmounted = true,
 })
 minetest.register_craft({
@@ -534,12 +528,12 @@ local WALLPZ = 4
 minetest.register_node( 'obsidian:door', {
     description         = 'Door',
     drawtype            = 'signlike',
-    tile_images         = { 'ob_door.png' },
+    tiles         = { 'ob_door.png' },
     inventory_image     = 'ob_door.png',
     wield_image         = 'ob_door.png',
     paramtype2          = 'wallmounted',
     selection_box       = { type = 'wallmounted' },
-    material            = minetest.digprop_constanttime(1.0),
+    groups              = { choppy=2, dig_immediate=2 },
 })
 
 minetest.register_craft( {
@@ -560,13 +554,13 @@ minetest.register_craft({
 minetest.register_node( 'obsidian:door_a_c', {
     Description         = 'Top Closed Door',
     drawtype            = 'signlike',
-    tile_images         = { 'ob_door_a.png' },
+    tiles         = { 'ob_door_a.png' },
     inventory_image     = 'ob_door_a.png',
     paramtype           = 'light',
     paramtype2          = 'wallmounted',
     walkable            = true,
     selection_box       = { type = "wallmounted", },
-    material            = minetest.digprop_constanttime(1.0),
+    groups              = { choppy=2, dig_immediate=2 },
     legacy_wallmounted  = true,
     drop                = 'obsidian:door',
 })
@@ -574,13 +568,13 @@ minetest.register_node( 'obsidian:door_a_c', {
 minetest.register_node( 'obsidian:door_b_c', {
     Description         = 'Bottom Closed Door',
     drawtype            = 'signlike',
-    tile_images         = { 'ob_door_b.png' },
+    tiles         = { 'ob_door_b.png' },
     inventory_image     = 'ob_door_b.png',
     paramtype           = 'light',
     paramtype2          = 'wallmounted',
     walkable            = true,
     selection_box       = { type = "wallmounted", },
-    material            = minetest.digprop_constanttime(1.0),
+   groups              = { choppy=2, dig_immediate=2 },
     legacy_wallmounted  = true,
     drop                = 'obsidian:door',
 })
@@ -588,13 +582,13 @@ minetest.register_node( 'obsidian:door_b_c', {
 minetest.register_node( 'obsidian:door_a_o', {
     Description         = 'Top Open Door',
     drawtype            = 'signlike',
-    tile_images         = { 'ob_door_a_r.png' },
+    tiles         = { 'ob_door_a_r.png' },
     inventory_image     = 'ob_door_a_r.png',
     paramtype           = 'light',
     paramtype2          = 'wallmounted',
     walkable            = false,
     selection_box       = { type = "wallmounted", },
-    material            = minetest.digprop_constanttime(1.0),
+    groups              = { choppy=2, dig_immediate=2 },
     legacy_wallmounted  = true,
     drop                = 'obsidian:door',
 })
@@ -602,13 +596,13 @@ minetest.register_node( 'obsidian:door_a_o', {
 minetest.register_node( 'obsidian:door_b_o', {
     Description         = 'Bottom Open Door',
     drawtype            = 'signlike',
-    tile_images         = { 'ob_door_b_r.png' },
+    tiles         = { 'ob_door_b_r.png' },
     inventory_image     = 'ob_door_b_r.png',
     paramtype           = 'light',
     paramtype2          = 'wallmounted',
     walkable            = false,
     selection_box       = { type = "wallmounted", },
-    material            = minetest.digprop_constanttime(1.0),
+    groups              = { choppy=2, dig_immediate=2 },
     legacy_wallmounted  = true,
     drop                = 'obsidian:door',
 })
