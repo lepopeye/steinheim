@@ -1,0 +1,12 @@
+Sur une map de base des zombies sont generé à des endroits precis ( foret ), ils sont très aggressif, le but est de s'en proteger la nuit.
+
+Le joueurs perd regulierement de la vie ( suivant le temps ), il doit manger pour survivre
+Si le joueur tombe, il se blesse. il doit se soigner sinon il perd de la vie plus rapidement
+Si le joueur est dans l'eau il perd de la vie ( ne peut pas rester sous l'eau indefiniment )
+
+Des caisses sont droppée aleatoirement sur la map contenant des items ( nourriture, arme, medicament )
+
+Posibilité de créer/utiliser des armes pour se defendre des zombis
+
+
+Des quetes ( mod aventure ) pourront etre debloquée pour gagner des items
