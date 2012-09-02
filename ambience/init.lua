@@ -20,7 +20,7 @@ local cave_frequent_volume = 1.0
 local water_frequent_frequency = 1000  --water sounds
 local water_frequent_volume = 1.0 
 local music_frequency = 7  --music (suggestion: keep this one low like around 6)
-local music_volume = 0.3 
+local music_volume = 0
 --End of Config
 ----------------------------------------------------------------------------------------------------
 local played_on_start = false

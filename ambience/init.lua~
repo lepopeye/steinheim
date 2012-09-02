@@ -1,467 +1,327 @@
--- ***********************************************************************************
---													   ***********************************************
---					4SEASONS							**************************************************
---													   ***********************************************
--- ***********************************************************************************
+--------------------------------------------------------------------------------------------------------
+--Ambiance Configuration for version .13
 
-SEASON_LENGTH = 1500 -- max tested 1500
-WEATHER_CHANGE_INTERVAL = 60
-BIRDS = true
+local max_frequency_all = 1000 --the larger you make this number the lest frequent ALL sounds will happen recommended values between 100-2000.
 
-PLANTLIKE = function(nodeid, nodename,type,option)
-	if option == nil then option = false end
+--for frequencies below use a number between 0 and max_frequency_all
+--for volumes below, use a number between 0.0 and 1, the larger the number the louder the sounds
+local night_frequency = 20  --owls, wolves 
+local night_volume = 0.9  
+local night_frequent_frequency = 150  --crickets
+local night_frequent_volume = 0.9
+local day_frequency = 100  --crow, bluejay, cardinal
+local day_volume = 0.9 
+local day_frequent_frequency = 1000  --crow, bluejay, cardinal
+local day_frequent_volume = 0.18
+local cave_frequency = 10  --bats
+local cave_volume = 1.0  
+local cave_frequent_frequency = 70  --drops of water dripping
+local cave_frequent_volume = 1.0 
+local water_frequent_frequency = 1000  --water sounds
+local water_frequent_volume = 1.0 
+local music_frequency = 7  --music (suggestion: keep this one low like around 6)
+local music_volume = 0
+--End of Config
+----------------------------------------------------------------------------------------------------
+local played_on_start = false
+local night = {
+	handler = {},
+	frequency = night_frequency,
+	{name="horned_owl", length=3, gain=night_volume},
+	{name="Wolves_Howling", length=11,  gain=night_volume},
+	{name="ComboWind", length=17,  gain=night_volume}
+}
 
-	local params ={ description = nodename, drawtype = "plantlike", tile_images = {"4seasons_"..nodeid..'.png'}, 
-	inventory_image = "4seasons_"..nodeid..'.png',	wield_image = "4seasons_"..nodeid..'.png', paramtype = "light",	}
-		
-	if type == 'veg' then
-		params.groups = {snappy=2,dig_immediate=3,flammable=2}
-		params.sounds = default.node_sound_leaves_defaults()
-		if option == false then params.walkable = false end
-	elseif type == 'met' then			-- metallic
-		params.groups = {cracky=3}
-		params.sounds = default.node_sound_stone_defaults()
-	elseif type == 'cri' then			-- craft items
-		params.groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,flammable=3}
-		params.sounds = default.node_sound_wood_defaults()
-		if option == false then params.walkable = false end
-	elseif type == 'eat' then			-- edible
-		params.groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,flammable=3}
-		params.sounds = default.node_sound_wood_defaults()
-		params.walkable = false
-		params.on_use = minetest.item_eat(option)
+local night_frequent = {
+	handler = {},
+	frequency = night_frequent_frequency,
+	{name="Crickets_At_NightCombo", length=69, gain=night_frequent_volume}
+}
+
+local day = {
+	handler = {},
+	frequency = day_frequency,
+	{name="Best Cardinal Bird", length=4, gain=day_volume},
+	{name="craw", length=3, gain=day_volume},
+	{name="bluejay", length=18, gain=day_volume},
+	{name="ComboWind", length=17,  gain=day_volume}
+}
+
+local day_frequent = {
+	handler = {},
+	frequency = day_frequent_frequency,
+	{name="robin2", length=16, gain=day_frequent_volume},
+	{name="birdsongnl", length=13, gain=day_frequent_volume},
+	{name="bird", length=30, gain=day_frequent_volume},
+	{name="Best Cardinal Bird", length=4, gain=day_frequent_volume},
+	{name="craw", length=3, gain=day_frequent_volume},
+	{name="bluejay", length=18, gain=day_frequent_volume},
+	{name="ComboWind", length=17,  gain=day_frequent_volume*3}
+}
+
+
+local cave = {
+	handler = {},
+	frequency = cave_frequency,
+	{name="Bats_in_Cave", length=5, gain=cave_volume}
+}
+
+local cave_frequent = {
+	handler = {},
+	frequency = cave_frequent_frequency,
+	{name="drippingwater_drip_a", length=2, gain=cave_frequent_volume},
+	{name="drippingwater_drip_b", length=2, gain=cave_frequent_volume},
+	{name="drippingwater_drip_c", length=2, gain=cave_frequent_volume},
+	{name="Single_Water_Droplet", length=3, gain=cave_frequent_volume},
+	{name="Spooky_Water_Drops", length=7, gain=cave_frequent_volume}
+}
+
+local water = {
+	handler = {},
+	frequency = 0,--dolphins dont fit into small lakes
+	{name="dolphins", length=6},
+	{name="dolphins_screaming", length=16.5}
+}
+
+local water_frequent = {
+	handler = {},
+	frequency = water_frequent_frequency,
+	on_stop = "drowning_gasp",
+	on_start = "Splash",
+	{name="scuba1bubbles", length=11, gain=water_frequent_volume},
+	{name="scuba1calm", length=10},  --not sure why but sometimes I get errors when setting gain=water_frequent_volume here.
+	{name="scuba1calm2", length=8.5, gain=water_frequent_volume},
+	{name="scuba1interestingbubbles", length=11, gain=water_frequent_volume},
+	{name="scuba1tubulentbubbles", length=10.5, gain=water_frequent_volume}
+}
+
+local flowing_water = {
+	handler = {},
+	frequency = 1000,
+	{name="small_waterfall", length=14},
+}
+
+local play_music = minetest.setting_getbool("music") or false
+local music = {
+	handler = {},
+	frequency = music_frequency,
+	{name="mtest", length=4*60+33, gain=music_volume},
+	{name="echos", length=2*60+26, gain=music_volume},
+	{name="FoamOfTheSea", length=1*60+50, gain=music_volume},
+	{name="eastern_feeling", length=3*60+51, gain=music_volume},
+	{name="Mass_Effect_Uncharted_Worlds", length=2*60+29, gain=music_volume},
+	{name="dark_ambiance", length=44, gain=music_volume}
+}
+
+local is_daytime = function()
+	return (minetest.env:get_timeofday() > 0.2 and  minetest.env:get_timeofday() < 0.8)
+end
+
+local nodes_in_range = function(pos, search_distance, node_name)
+	local search_p = {x=0, y=0, z=0}
+	local nodes_found = 0
+	for p_x=(pos.x-search_distance), (pos.x+search_distance) do
+		for p_y=(pos.y-search_distance), (pos.y+search_distance) do
+			for p_z=(pos.z-search_distance), (pos.z+search_distance) do
+				local search_n = minetest.env:get_node({x=p_x, y=p_y, z=p_z})
+				if search_n.name == node_name then
+					nodes_found = nodes_found + 1
+				end
+			end
+		end
 	end
-	minetest.register_node("4seasons:"..nodeid, params)
+	return nodes_found
+	--minetest.chat_send_all("Range: " .. tostring(search_distance) .. " | Found (" .. node_name .. ": " .. nodes_found .. ")")
 end
 
--- ***********************************************************************************
---		SEASONAL CHANGES					**************************************************
--- ***********************************************************************************
-SEASON_FILE = minetest.get_worldpath()..'/4seasons.season'
-
-local function set_season(t)
-    CURRENT_SEASON = t
-    -- write to file
-    local f = io.open(SEASON_FILE, "w")
-    f:write(CURRENT_SEASON)
-    io.close(f)
-end
-
-local f = io.open(SEASON_FILE, "r")
-if f ~= nil then
-	CURRENT_SEASON = f:read("*n")
-	io.close(f)
-else
-	print('could not find season file, creating one (setting summer).')
-	set_season(3)
-
-end
-
-switch_seasons = function()
-	if CURRENT_SEASON == 1 then 
-		set_season(2)		-- set to spring
-		print('changing to spring')
-		minetest.after(SEASON_LENGTH,switch_seasons)
-	elseif  CURRENT_SEASON == 2 then 
-		set_season(3)		-- set to summer
-		print('changing to summer')
-		minetest.after(SEASON_LENGTH,switch_seasons)
-	elseif  CURRENT_SEASON == 3 then
-		set_season(4) 		-- set to autumn
-		print('changing to autumn')
-		minetest.after(SEASON_LENGTH,switch_seasons)
-	elseif  CURRENT_SEASON == 4 then
-		set_season(1) 		-- set to winter
-		print('changing to winter')
-		minetest.after(SEASON_LENGTH,switch_seasons)
-
-	end
-end
-
-minetest.after(SEASON_LENGTH,switch_seasons)
-
-minetest.register_chatcommand("season", {
-	params = "<season>",
-	description = "set the season",
-	privs = {server=true},	
-	func = function(name, param)
-		if param == 'winter' or param == 'Winter' then set_season(1)
-		elseif param == 'spring' or param == 'Spring' then set_season(2)
-		elseif param == 'summer' or param == 'Summer' then set_season(3)
-		elseif param == 'fall' or param == 'Fall' then set_season(4)
-		elseif param == 'pause' or param == 'Pause' then set_season(0)
-			minetest.chat_send_player(name, "Season paused.")
-			return
+local get_ambience = function(player)
+	local pos = player:getpos()
+	pos.y = pos.y+1.0
+	local nodename = minetest.env:get_node(pos).name
+	if string.find(nodename, "default:water") then
+		if music then
+			return {water=water, water_frequent=water_frequent, music=music}
 		else
-			minetest.chat_send_player(name, "Invalid paramater '"..param.."', try 'winter','spring','summer' or 'fall'.")
-			return		
+			return {water=water, water_frequent=water_frequent}
 		end
-		minetest.chat_send_player(name, "Season changed.")
-	end,
-})
-
-
-minetest.register_abm({
-		nodenames = { "default:dirt_with_grass","4seasons:grass_autumn",'4seasons:grass_winter',"4seasons:grass_spring",
-					  'default:leaves','4seasons:leaves_autumn','4seasons:leaves_winter','4seasons:leaves_spring',
-					  "default:water_source","default:water_flowing", "default:cactus","default:desert_sand","default:sand","4seasons:desertsand_winter", "4seasons:sand_winter","4seasons:cactus_winter",'4seasons:ice_source','4seasons:ice_flowing' },
-		interval = WEATHER_CHANGE_INTERVAL,
-		chance = 6,
-		
-		action = function(pos, node, active_object_count, active_object_count_wider)
-			if CURRENT_SEASON == 1 then
-				if node.name == '4seasons:grass_autumn' or node.name == 'default:dirt_with_grass' or node.name == '4seasons:grass_spring' then
-					minetest.env:add_node(pos,{type="node",name='4seasons:grass_winter'})
-				elseif node.name == '4seasons:leaves_autumn' or node.name == 'default:leaves' or node.name == '4seasons:leaves_spring' then
-					minetest.env:add_node(pos,{type="node",name='4seasons:leaves_winter'})
-
-				elseif node.name == 'default:desert_sand' then
-					above = minetest.env:get_node_or_nil({x=pos.x,y=pos.y+1,z=pos.z})
-					if above ~= nil and above.name == 'air' then
-						minetest.env:add_node(pos,{type="node",name='4seasons:desertsand_winter'})
-					end
-				elseif node.name == 'default:sand' then
-					above = minetest.env:get_node_or_nil({x=pos.x,y=pos.y+1,z=pos.z})
-					if above ~= nil and above.name == 'air' then
-						minetest.env:add_node(pos,{type="node",name='4seasons:sand_winter'})
-					end
-				elseif node.name == 'default:cactus' then
-					above = minetest.env:get_node_or_nil({x=pos.x,y=pos.y+1,z=pos.z})
-					if above ~= nil and above.name == 'air' then
-						minetest.env:add_node(pos,{type="node",name='4seasons:cactus_winter'})
-					end
-				elseif node.name == 'default:water_source' then
-					above = minetest.env:get_node_or_nil({x=pos.x,y=pos.y+1,z=pos.z})
-					if above ~= nil and above.name == 'air' then
-						minetest.env:add_node(pos,{type="node",name='4seasons:ice_source'})
-					end
-				elseif node.name == 'default:water_flowing' then
-					above = minetest.env:get_node_or_nil({x=pos.x,y=pos.y+1,z=pos.z})
-					if above ~= nil and above.name == 'air' then
-						minetest.env:add_node(pos,{type="node",name='4seasons:ice_flowing'})
-					end
-				end
-			elseif CURRENT_SEASON == 2 then
-				if node.name == '4seasons:grass_winter' or node.name == '4seasons:grass_autumn' or node.name == 'default:dirt_with_grass' then
-					minetest.env:add_node(pos,{type="node",name='4seasons:grass_spring'})
-				elseif node.name == '4seasons:leaves_winter' or node.name == '4seasons:leaves_autumn' or node.name == 'default:leaves' then
-					minetest.env:add_node(pos,{type="node",name='4seasons:leaves_spring'})
-				elseif node.name == '4seasons:desertsand_winter' then
-					minetest.env:add_node(pos,{type="node",name='default:desert_sand'})
-				elseif node.name == '4seasons:sand_winter' then
-					minetest.env:add_node(pos,{type="node",name='default:sand'})
-				elseif node.name == '4seasons:cactus_winter' then
-					minetest.env:add_node(pos,{type="node",name='default:cactus'})
-				elseif node.name == '4seasons:ice_source' then
-					minetest.env:add_node(pos,{type="node",name='default:water_source'})
-				elseif node.name == '4seasons:ice_flowing' then
-					minetest.env:add_node(pos,{type="node",name='default:water_flowing'})
-				end
-			elseif CURRENT_SEASON == 3 then
-				if node.name == '4seasons:leaves_spring' or node.name == '4seasons:leaves_winter' or node.name == '4seasons:leaves_autumn' then
-					minetest.env:add_node(pos,{type="node",name='default:leaves'})
-				elseif node.name == '4seasons:grass_spring' or node.name == '4seasons:grass_winter' or node.name == '4seasons:grass_autumn' then
-					minetest.env:add_node(pos,{type="node",name='default:dirt_with_grass'})
-				elseif node.name == '4seasons:desertsand_winter' then
-					minetest.env:add_node(pos,{type="node",name='default:desert_sand'})
-				elseif node.name == '4seasons:sand_winter' then
-					minetest.env:add_node(pos,{type="node",name='default:sand'})
-				elseif node.name == '4seasons:cactus_winter' then
-					minetest.env:add_node(pos,{type="node",name='default:cactus'})
-				elseif node.name == '4seasons:ice_source' then
-					minetest.env:add_node(pos,{type="node",name='default:water_source'})
-				elseif node.name == '4seasons:ice_flowing' then
-					minetest.env:add_node(pos,{type="node",name='default:water_flowing'})
-				end
-			elseif CURRENT_SEASON == 4 then
-				if node.name == 'default:leaves' or node.name == '4seasons:leaves_spring' or node.name == '4seasons:leaves_winter' then
-					minetest.env:add_node(pos,{type="node",name='4seasons:leaves_autumn'})
-				elseif node.name == 'default:dirt_with_grass' or node.name == '4seasons:grass_spring' or node.name == '4seasons:grass_winter' then
-					minetest.env:add_node(pos,{type="node",name='4seasons:grass_autumn'})
-				elseif node.name == '4seasons:desertsand_winter' then
-					minetest.env:add_node(pos,{type="node",name='default:desert_sand'})
-				elseif node.name == '4seasons:sand_winter' then
-					minetest.env:add_node(pos,{type="node",name='default:sand'})
-				elseif node.name == '4seasons:cactus_winter' then
-					minetest.env:add_node(pos,{type="node",name='default:cactus'})
-				elseif node.name == '4seasons:ice_source' then
-					minetest.env:add_node(pos,{type="node",name='default:water_source'})
-				elseif node.name == '4seasons:ice_flowing' then
-					minetest.env:add_node(pos,{type="node",name='default:water_flowing'})
-				end
-			end
+	end
+	if nodes_in_range(pos, 5, "default:water_flowing")>5 then
+		if music then
+			return {flowing_water=flowing_water, music=music}
+		else
+			return {flowing_water=flowing_water}
 		end
-})
-
--- ***********************************************************************************
---		BIRDS SPRING/SUMMER				**************************************************
--- ***********************************************************************************
-if BIRDS == true then
-	local bird = {}
-	bird.sounds = {}
-	bird_sound = function(p)
-				local wanted_sound = {name="bird", gain=0.6}
-				bird.sounds[minetest.hash_node_position(p)] = {
-					handle = minetest.sound_play(wanted_sound, {pos=p, loop=true}),
-					name = wanted_sound.name, }
-			end
-
-	bird_stop = function(p)
-				local sound = bird.sounds[minetest.hash_node_position(p)]
-				if sound ~= nil then
-					minetest.sound_stop(sound.handle)
-					bird.sounds[minetest.hash_node_position(p)] = nil
-				end
-			end
-	minetest.register_on_dignode(function(p, node)
-		if node.name == "4seasons:bird" then
-			bird_stop(p)
-
+	end
+	if player:getpos().y < 0 then
+		if music then
+			return {cave=cave, cave_frequent=cave_frequent, music=music}
+		else
+			return {cave=cave, cave_frequent=cave_frequent}
 		end
-	end)
-	minetest.register_abm({
-			nodenames = { "4seasons:leaves_spring",'default:leaves' },
-			interval = NATURE_GROW_INTERVAL,
-			chance = 200,
-			action = function(pos, node, active_object_count, active_object_count_wider)
-				local air = { x=pos.x, y=pos.y+1,z=pos.z }
-				local is_air = minetest.env:get_node_or_nil(air)
-				if is_air ~= nil and is_air.name == 'air' then
-					minetest.env:add_node(air,{type="node",name='4seasons:bird'})
-					bird_sound(air)
-				end
-			end
-	})
-	minetest.register_abm({
-			nodenames = {'4seasons:bird' },
-			interval = NATURE_GROW_INTERVAL,
-			chance = 2,
-			action = function(pos, node, active_object_count, active_object_count_wider)
-				minetest.env:remove_node(pos)
-				bird_stop(pos)
-			end
-	})
+	end
+	if is_daytime() then
+		if music then
+			return {day=day, day_frequent=day_frequent, music=music}
+		else
+			return {day=day, day_frequent=day_frequent}
+		end
+	else
+		if music then
+			return {night=night, night_frequent=night_frequent, music=music}
+		else
+			return {night=night, night_frequent=night_frequent}
+		end
+	end
 end
 
--- ***********************************************************************************
---		SLIMTREES							**************************************************
--- ***********************************************************************************
-minetest.register_abm({
-		nodenames = { "4seasons:slimtree" },
-		interval = 120,
-		chance = 1,
-		
-		action = function(pos, node, active_object_count, active_object_count_wider)
-			minetest.env:add_node({x=pos.x,y=pos.y,z=pos.z},{type="node",name="4seasons:slimtree_wood"})
-			minetest.env:add_node({x=pos.x,y=pos.y+1,z=pos.z},{type="node",name="4seasons:slimtree_wood"})
-			minetest.env:add_node({x=pos.x,y=pos.y+2,z=pos.z},{type="node",name="4seasons:slimtree_wood"})
-
-			minetest.env:add_node({x=pos.x,y=pos.y+3,z=pos.z},{type="node",name="4seasons:slimtree_wood"})			
-			minetest.env:add_node({x=pos.x+1,y=pos.y+3,z=pos.z},{type="node",name="default:leaves"})			
-			minetest.env:add_node({x=pos.x-1,y=pos.y+3,z=pos.z},{type="node",name="default:leaves"})			
-			minetest.env:add_node({x=pos.x,y=pos.y+3,z=pos.z+1},{type="node",name="default:leaves"})			
-			minetest.env:add_node({x=pos.x,y=pos.y+3,z=pos.z-1},{type="node",name="default:leaves"})			
-
-
-			minetest.env:add_node({x=pos.x,y=pos.y+4,z=pos.z},{type="node",name="default:leaves"})			
-			minetest.env:add_node({x=pos.x+1,y=pos.y+4,z=pos.z},{type="node",name="default:leaves"})			
-			minetest.env:add_node({x=pos.x-1,y=pos.y+4,z=pos.z},{type="node",name="default:leaves"})			
-			minetest.env:add_node({x=pos.x,y=pos.y+4,z=pos.z+1},{type="node",name="default:leaves"})			
-			minetest.env:add_node({x=pos.x,y=pos.y+4,z=pos.z-1},{type="node",name="default:leaves"})			
-
-
-			minetest.env:add_node({x=pos.x,y=pos.y+5,z=pos.z},{type="node",name="default:leaves"})			
-			minetest.env:add_node({x=pos.x+1,y=pos.y+5,z=pos.z},{type="node",name="default:leaves"})			
-			minetest.env:add_node({x=pos.x-1,y=pos.y+5,z=pos.z},{type="node",name="default:leaves"})			
-			minetest.env:add_node({x=pos.x,y=pos.y+5,z=pos.z+1},{type="node",name="default:leaves"})			
-			minetest.env:add_node({x=pos.x,y=pos.y+5,z=pos.z-1},{type="node",name="default:leaves"})			
-
-			minetest.env:add_node({x=pos.x,y=pos.y+6,z=pos.z},{type="node",name="default:leaves"})			
-			minetest.env:add_node({x=pos.x+1,y=pos.y+6,z=pos.z},{type="node",name="default:leaves"})			
-			minetest.env:add_node({x=pos.x-1,y=pos.y+6,z=pos.z},{type="node",name="default:leaves"})			
-			minetest.env:add_node({x=pos.x,y=pos.y+6,z=pos.z+1},{type="node",name="default:leaves"})			
-			minetest.env:add_node({x=pos.x,y=pos.y+6,z=pos.z-1},{type="node",name="default:leaves"})			
+-- start playing the sound, set the handler and delete the handler after sound is played
+local play_sound = function(player, list, number)
+	local player_name = player:get_player_name()
+	if list.handler[player_name] == nil then
+		local gain = 1.0
+		if list[number].gain ~= nil then
+			gain = list[number].gain
 		end
-})
--- ***********************************************************************************
---		PALM TREES							**************************************************
--- ***********************************************************************************
-minetest.register_abm({
-		nodenames = { "4seasons:palmtree" },
-		interval = 120,
-		chance = 1,
-	
-		action = function(pos, node, active_object_count, active_object_count_wider)
-			minetest.env:add_node({x=pos.x,y=pos.y,z=pos.z},{type="node",name="4seasons:slimtree_wood"})
-			minetest.env:add_node({x=pos.x,y=pos.y+1,z=pos.z},{type="node",name="4seasons:slimtree_wood"})
-			minetest.env:add_node({x=pos.x,y=pos.y+2,z=pos.z},{type="node",name="4seasons:slimtree_wood"})
-			minetest.env:add_node({x=pos.x,y=pos.y+3,z=pos.z},{type="node",name="4seasons:slimtree_wood"})
-			minetest.env:add_node({x=pos.x,y=pos.y+4,z=pos.z},{type="node",name="4seasons:slimtree_wood"})						
-			minetest.env:add_node({x=pos.x,y=pos.y+5,z=pos.z},{type="node",name="4seasons:slimtree_wood"})			
-			minetest.env:add_node({x=pos.x,y=pos.y+6,z=pos.z},{type="node",name="4seasons:slimtree_wood"})												
-			minetest.env:add_node({x=pos.x,y=pos.y+7,z=pos.z},{type="node",name="4seasons:slimtree_wood"})						
-			minetest.env:add_node({x=pos.x,y=pos.y+8,z=pos.z},{type="node",name="4seasons:slimtree_wood"})						
-			minetest.env:add_node({x=pos.x+2,y=pos.y+8,z=pos.z},{type="node",name="4seasons:palmleaves"})			
-			minetest.env:add_node({x=pos.x-2,y=pos.y+8,z=pos.z},{type="node",name="4seasons:palmleaves"})			
-			minetest.env:add_node({x=pos.x,y=pos.y+8,z=pos.z+2},{type="node",name="4seasons:palmleaves"})			
-			minetest.env:add_node({x=pos.x,y=pos.y+8,z=pos.z-2},{type="node",name="4seasons:palmleaves"})			
-			minetest.env:add_node({x=pos.x,y=pos.y+9,z=pos.z},{type="node",name="4seasons:palmleaves"})			
-			minetest.env:add_node({x=pos.x+1,y=pos.y+9,z=pos.z},{type="node",name="4seasons:palmleaves"})			
-			minetest.env:add_node({x=pos.x-1,y=pos.y+9,z=pos.z},{type="node",name="4seasons:palmleaves"})			
-			minetest.env:add_node({x=pos.x,y=pos.y+9,z=pos.z+1},{type="node",name="4seasons:palmleaves"})			
-			minetest.env:add_node({x=pos.x,y=pos.y+9,z=pos.z-1},{type="node",name="4seasons:palmleaves"})			
+		local handler = minetest.sound_play(list[number].name, {to_player=player_name, gain=gain})
+		if handler ~= nil then
+			list.handler[player_name] = handler
+			minetest.after(list[number].length, function(args)
+				local list = args[1]
+				local player_name = args[2]
+				if list.handler[player_name] ~= nil then
+					minetest.sound_stop(list.handler[player_name])
+					list.handler[player_name] = nil
+				end
+			end, {list, player_name})
 		end
-})
+	end
+end
 
--- ***********************************************************************************
---		NODES									**************************************************
--- ***********************************************************************************
+-- stops all sounds that are not in still_playing
+local stop_sound = function(still_playing, player)
+	local player_name = player:get_player_name()
+	if still_playing.cave == nil then
+		local list = cave
+		if list.handler[player_name] ~= nil then
+			if list.on_stop ~= nil then
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
+			end
+			minetest.sound_stop(list.handler[player_name])
+			list.handler[player_name] = nil
+		end
+	end
+	if still_playing.cave_frequent == nil then
+		local list = cave_frequent
+		if list.handler[player_name] ~= nil then
+			if list.on_stop ~= nil then
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
+			end
+			minetest.sound_stop(list.handler[player_name])
+			list.handler[player_name] = nil
+		end
+	end
+	if still_playing.night == nil then
+		local list = night
+		if list.handler[player_name] ~= nil then
+			if list.on_stop ~= nil then
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
+			end
+			minetest.sound_stop(list.handler[player_name])
+			list.handler[player_name] = nil
+		end
+	end
+	if still_playing.night_frequent == nil then
+		local list = night_frequent
+		if list.handler[player_name] ~= nil then
+			if list.on_stop ~= nil then
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
+			end
+			minetest.sound_stop(list.handler[player_name])
+			list.handler[player_name] = nil
+		end
+	end
+	if still_playing.day == nil then
+		local list = day
+		if list.handler[player_name] ~= nil then
+			if list.on_stop ~= nil then
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
+			end
+			minetest.sound_stop(list.handler[player_name])
+			list.handler[player_name] = nil
+		end
+	end
+	if still_playing.day_frequent == nil then
+		local list = day_frequent
+		if list.handler[player_name] ~= nil then
+			if list.on_stop ~= nil then
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
+			end
+			minetest.sound_stop(list.handler[player_name])
+			list.handler[player_name] = nil
+		end
+	end
+	if still_playing.music == nil then
+		local list = music
+		if list.handler[player_name] ~= nil then
+			if list.on_stop ~= nil then
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
+			end
+			minetest.sound_stop(list.handler[player_name])
+			list.handler[player_name] = nil
+		end
+	end
+	if still_playing.flowing_water == nil then
+		local list = flowing_water
+		if list.handler[player_name] ~= nil then
+			if list.on_stop ~= nil then
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
+			end
+			minetest.sound_stop(list.handler[player_name])
+			list.handler[player_name] = nil
+		end
+	end
+	if still_playing.water == nil then
+		local list = water
+		if list.handler[player_name] ~= nil then
+			if list.on_stop ~= nil then
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
+			end
+			minetest.sound_stop(list.handler[player_name])
+			list.handler[player_name] = nil
+		end
+	end
+	if still_playing.water_frequent == nil then
+		local list = water_frequent
+		if list.handler[player_name] ~= nil then
+			if list.on_stop ~= nil then				
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
+				played_on_start = false
+			end
+			minetest.sound_stop(list.handler[player_name])
+			list.handler[player_name] = nil
+		end
+	end
+end
 
-PLANTLIKE('palmtree','Palmtree Sapling','veg')
-PLANTLIKE('slimtree','Slimtree Sapling','veg')
-PLANTLIKE('bird','Bird','veg')
-minetest.register_node("4seasons:palmleaves", {
-	description = "Rail",
-	drawtype = "raillike",
-	tile_images = {"4seasons_palmleaves.png", "4seasons_palmleaves_top.png", "4seasons_palmleaves_top.png", "4seasons_palmleaves_top.png"},
-	inventory_image = "4seasons_palmleaves.png",
-	wield_image = "4seasons_palmleaves.png",
-	paramtype = "light",
-	is_ground_content = true,
-	walkable = false,
-	selection_box = {
-		type = "fixed",
-		--fixed = <default>
-	},
-	groups = {bendy=2,snappy=1,dig_immediate=2},
-})
-minetest.register_node("4seasons:slimtree_wood", {
-	description = "Slimtree",
-	drawtype = "fencelike",
-	tile_images = {"default_tree.png"},
---	inventory_image = "default_tree.png",
---	wield_image = "default_tree.png",
-	paramtype = "light",
-	is_ground_content = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
-	},
-	groups = {tree=1,snappy=2,choppy=2,oddly_breakable_by_hand=2,flammable=2},
-	sounds = default.node_sound_wood_defaults(),
-	drop = 'default:fence_wood',
-})
-minetest.register_node("4seasons:ice_source", {
-	description = "Ice",
-	tile_images = {"4seasons_ice.png"},
-	is_ground_content = true,
-	groups = {snappy=2,choppy=3},
-	sounds = default.node_sound_stone_defaults(),
-})
-minetest.register_node("4seasons:ice_flowing", {
-	description = "Ice",
-	tile_images = {"4seasons_ice.png"},
-	is_ground_content = true,
-	groups = {snappy=2,choppy=3},
-	sounds = default.node_sound_stone_defaults(),
-})
-minetest.register_node("4seasons:leaves_autumn", {
-	description = "Leaves",
-	drawtype = "allfaces_optional",
-	visual_scale = 1.3,
-	tile_images = {"4seasons_leaves_autumn.png"},
-	paramtype = "light",
-	groups = {snappy=3, leafdecay=3, flammable=2},
-	drop = {
-		max_items = 1, items = {
-			{items = {'default:sapling'},	rarity = 20,},
-			{items = {'4seasons:leaves_autumn'},}
-		}},
-	sounds = default.node_sound_leaves_defaults(),
-})
-minetest.register_node("4seasons:leaves_spring", {
-	description = "Leaves",
-	drawtype = "allfaces_optional",
-	visual_scale = 1.3,
-	tile_images = {"4seasons_leaves_spring.png"},
-	paramtype = "light",
-	groups = {snappy=3, leafdecay=3, flammable=2},
-	drop = {
-		max_items = 1, items = {
-			{items = {'default:sapling'},	rarity = 20,},
-			{items = {'4seasons:leaves_spring'},}
-		}},
-	sounds = default.node_sound_leaves_defaults(),
-})
-minetest.register_node("4seasons:grass_spring", {
-	description = "Dirt with snow",
-	tile_images = {"4seasons_grass_spring.png", "default_dirt.png", "default_dirt.png^4seasons_grass_spring_side.png"},
-	is_ground_content = true,
-	groups = {crumbly=3},
-	drop = 'default:dirt',
-	sounds = default.node_sound_dirt_defaults({
-		footstep = {name="default_grass_footstep", gain=0.4},
-	}),
-})
-minetest.register_node("4seasons:grass_autumn", {
-	description = "Dirt with snow",
-	tile_images = {"4seasons_grass_autumn.png", "default_dirt.png", "default_dirt.png^4seasons_grass_autumn_side.png"},
-	is_ground_content = true,
-	groups = {crumbly=3},
-	drop = 'default:dirt',
-	sounds = default.node_sound_dirt_defaults({
-		footstep = {name="default_grass_footstep", gain=0.4},
-	}),
-})
-minetest.register_node("4seasons:grass_winter", {
-	description = "Dirt with snow",
-	tile_images = {"4seasons_snow.png", "default_dirt.png", "default_dirt.png^4seasons_grass_w_snow_side.png"},
-	is_ground_content = true,
-	groups = {crumbly=3},
-	drop = 'default:dirt',
-	sounds = default.node_sound_dirt_defaults({
-		footstep = {name="default_grass_footstep", gain=0.4},
-	}),
-})
-minetest.register_node("4seasons:leaves_winter", {
-	description = "Leaves",
-	drawtype = "allfaces_optional",
-	visual_scale = 1.3,
-	tile_images = {"4seasons_leaves_with_snow.png"},
-	paramtype = "light",
-	groups = {snappy=3, leafdecay=3, flammable=2},
-	drop = {
-		max_items = 1, items = {
-			{items = {'default:sapling'},	rarity = 20,},
-			{items = {'4seasons:leaves_winter'},}
-		}},
-	sounds = default.node_sound_leaves_defaults(),
-})
-minetest.register_node("4seasons:cactus_winter", {
-	description = "Cactus",
-	tile_images = {"4seasons_cactus_wsnow_top.png", "4seasons_cactus_wsnow_top.png", "4seasons_cactus_wsnow_side.png"},
-	is_ground_content = true,
-	groups = {snappy=2,choppy=3,flammable=2},
-	sounds = default.node_sound_wood_defaults(),
-})
-minetest.register_node("4seasons:sand_winter", {
-	description = "Sand with snow",
-	tile_images = {"4seasons_snow.png", "default_sand.png", "default_sand.png^4seasons_sand_w_snow_side.png"},
-	is_ground_content = true,
-	groups = {crumbly=3},
-	drop = 'default:sand',
-	sounds = default.node_sound_dirt_defaults({
-		footstep = {name="default_grass_footstep", gain=0.4},
-	}),
-})
-minetest.register_node("4seasons:desertsand_winter", {
-	description = "Desert Sand with snow",
-	tile_images = {"4seasons_snow.png", "default_desert_sand.png", "default_desert_sand.png^4seasons_desertsand_w_snow_side.png"},
-	is_ground_content = true,
-	groups = {crumbly=3},
-	drop = 'default:desert_sand',
-	sounds = default.node_sound_dirt_defaults({
-		footstep = {name="default_grass_footstep", gain=0.4},
-	}),
-})
+local timer = 0
+minetest.register_globalstep(function(dtime)
+	timer = timer+dtime
+	if timer < 1 then
+		return
+	end
+	timer = 0
 
+	for _,player in ipairs(minetest.get_connected_players()) do
+		local ambiences = get_ambience(player)
+		stop_sound(ambiences, player)
+		for _,ambience in pairs(ambiences) do
+			if math.random(1, 1000) <= ambience.frequency then
+				if ambience.on_start ~= nil and played_on_start == false then
+					played_on_start = true
+					minetest.sound_play(ambience.on_start, {to_player=player:get_player_name()})					
+				end
+				play_sound(player, ambience, math.random(1, #ambience))
+			end
+		end
+	end
+end)
