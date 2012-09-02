@@ -10,24 +10,30 @@ TRANSPORT_PLAYER = true
 --=========
 -- The name of the Soundfile
 --=========
-SOUND_FILE = "carts_cart_sound"
+SOUND_FILES = {
+				{"carts_curved_rails", 2},
+				{"carts_railway_crossover", 2},
+				{"carts_straight_rails", 1},
+			  }
 
 --=========
 -- The sound gain
-SOUND_GAIN = 1
+SOUND_GAIN = 0.8
 --=========
 
 --=========
 -- Raillike nodes
 --=========
-RAILS = {"default:rail", "carts:meseconrail_off", "carts:meseconrail_on", "carts:meseconrail_stop_off", "carts:meseconrail_stop_on"}
+RAILS = {"default:rail", "carts:meseconrail_off", "carts:meseconrail_on", "carts:meseconrail_stop_off", "carts:meseconrail_stop_on", "moreores:copper_rail"}
+
+dofile(minetest.get_modpath("carts").."/box.lua")
 
 local cart = {
 	physical = true,
 	collisionbox = {-0.425, -0.425, -0.425, 0.425, 0.425, 0.425},
-	visual = "cube",
-	textures = {"carts_cart_top.png", "carts_cart_bottom.png", "carts_cart_side.png", "carts_cart_side.png", "carts_cart_side.png", "carts_cart_side.png"},
-	visual_size = {x=.85, y=.85, z=0.85},
+	visual = "wielditem",
+	textures = {"carts:cart_box"},
+	visual_size = {x=0.85*2/3, y=0.85*2/3},
 	--Variables
 	fahren = false, -- true when the cart drives
 	fallen = false, -- true when the cart drives downhill
@@ -90,15 +96,45 @@ function cart:stop()
 	self.object:setacceleration({x = 0, y = -10, z = 0})
 	self:set_speed(0)
 	-- stop sound
-	if self.sound_handler ~= nil then
+	self:sound("stop")
+end
+
+function cart:sound(arg)
+	if arg == "stop" then
+		if self.sound_handler ~= nil then
+			minetest.sound_stop(self.sound_handler)
+			self.sound_handler = nil
+		end
+	elseif arg == "continue" then
+		if self.sound_handler == nil then
+			return
+		end
 		minetest.sound_stop(self.sound_handler)
-		self.sound_handler = nil
+		local sound = SOUND_FILES[math.random(1, #SOUND_FILES)]
+		self.sound_handler = minetest.sound_play(sound[1], {
+			object = self.object,
+			gain = SOUND_GAIN,
+		})
+		minetest.after(sound[2], function()
+			self:sound("continue")
+		end)
+	elseif arg == "start" then
+		local sound = SOUND_FILES[math.random(1, #SOUND_FILES)]
+		self.sound_handler = minetest.sound_play(sound[1], {
+			object = self.object,
+			gain = SOUND_GAIN,
+		})
+		minetest.after(sound[2], function()
+			self:sound("continue")
+		end)
 	end
 end
 
 -- Returns the direction the cart has to drive
-function cart:get_new_direction()
-	local pos = self.object:getpos()
+function cart:get_new_direction(pos)
+	if pos == nil then
+		pos = self.object:getpos()
+	end
 	if self.dir == nil then
 		return nil
 	end
@@ -429,14 +465,44 @@ function cart:on_step(dtime)
 	end
 	
 	local newdir = self:get_new_direction()
+	if newdir == "x+" then
+		self.object:setyaw(0)
+	elseif newdir == "x-" then
+		self.object:setyaw(math.pi)
+	elseif newdir == "z+" then
+		self.object:setyaw(math.pi/2)
+	elseif newdir == "z-" then
+		self.object:setyaw(math.pi*3/2)
+	end
 	if newdir == nil and not self.fallen then
 		-- end of rail
-		self:stop()
+		-- chek if the cart derailed
 		local pos = self.object:getpos()
-		pos.x = math.floor(0.5+pos.x)
-		pos.z = math.floor(0.5+pos.z)
-		self.object:setpos(pos)
-		return
+		if self.dir == "x+" then
+			pos.x = pos.x-1
+		elseif self.dir == "x-" then
+			pos.x = pos.x+1
+		elseif self.dir == "z+" then
+			pos.z = pos.z-1
+		elseif self.dir == "z-" then
+			pos.z = pos.z+1
+		end
+		local checkdir = self:get_new_direction(pos)
+		if checkdir ~= self.dir and checkdir ~= nil then
+			self.object:setpos(pos)
+			self.dir = checkdir
+			self.old_dir = checkdir
+			-- change direction
+			local speed = self:get_speed()
+			self:set_speed(speed)
+		else
+			-- stop
+			self:stop()
+			local pos = self.object:getpos()
+			pos.x = math.floor(0.5+pos.x)
+			pos.z = math.floor(0.5+pos.z)
+			self.object:setpos(pos)
+		end
 	elseif newdir == "y+" then
 		-- uphill
 		self.fallen = false
@@ -467,6 +533,7 @@ function cart:on_step(dtime)
 		end
 	end
 	
+	-- control speed and acceleration
 	if self.bremsen then
 		if not equals(self:get_speed(), 0) then
 			-- if the cart is still driving -> brake
@@ -493,6 +560,9 @@ function cart:on_step(dtime)
 			item:setpos(pos)
 		else
 			item:setpos(self.object:getpos())
+			if item:get_luaentity() ~= nil then
+				item:setvelocity(self.object:getvelocity())
+			end
 		end
 	end
 	
@@ -505,11 +575,8 @@ function cart:on_step(dtime)
 		self.weiche = {x=nil, y=nil, z=nil}
 	end
 	
-	-- search for boxes and place all items (except players) in it
+	-- search for chests
 	for d=-1,1 do
-		if #self.items == 0 then
-			break
-		end
 		local pos = {x=self.object:getpos().x+d, y=self.object:getpos().y, z=self.object:getpos().z}
 		local name1 = minetest.env:get_node(pos).name
 		pos = {x=self.object:getpos().x, y=self.object:getpos().y, z=self.object:getpos().z+d}
@@ -522,41 +589,36 @@ function cart:on_step(dtime)
 			name1 = nil
 		end
 		if name1 ~= nil then
+			pos.x = math.floor(0.5+pos.x)
+			pos.y = math.floor(0.5+pos.y)
+			pos.z = math.floor(0.5+pos.z)
+			local inv = minetest.env:get_meta(pos):get_inventory()
+			-- drop items
 			local items_tmp = {}
+			local inv = minetest.env:get_meta(pos):get_inventory()
 			for i,item in ipairs(self.items) do
-				if not item:is_player() then
-					item:setpos({x=math.floor(0.5+pos.x), y=math.floor(0.5+pos.y)+0.2, z=math.floor(0.5+pos.z)})
+				if not item:is_player() and item:get_luaentity().itemstring ~= nil and item:get_luaentity().itemstring ~= "" and inv:room_for_item("in", ItemStack(item:get_luaentity().itemstring)) then
+					if item:get_luaentity().pickup == nil or not pos_equals(pos, item:get_luaentity().pickup) then
+						inv:add_item("in", ItemStack(item:get_luaentity().itemstring))
+					item:remove()
+					else
+						table.insert(items_tmp, item)
+					end
 				else
 					table.insert(items_tmp, item)
 				end
 			end
 			self.items = items_tmp
-		end
-	end
-	
-	--search for pickup plates and take items
-	for d=-1,1 do
-		local pos = {x=self.object:getpos().x+d, y=self.object:getpos().y, z=self.object:getpos().z}
-		local name1 = minetest.env:get_node(pos).name
-		pos = {x=self.object:getpos().x, y=self.object:getpos().y, z=self.object:getpos().z+d}
-		local name2 = minetest.env:get_node(pos).name
-		if name1 == "carts:pickup_plate" then
-			pos = {x=self.object:getpos().x+d, y=self.object:getpos().y, z=self.object:getpos().z}
-		elseif name2 == "carts:pickup_plate" then
-			pos = {x=self.object:getpos().x, y=self.object:getpos().y, z=self.object:getpos().z+d}
-		else
-			name1 = nil
-		end
-		if name1 ~= nil then
-			pos.x = math.floor(0.5+pos.x)
-			pos.y = math.floor(0.5+pos.y)
-			pos.z = math.floor(0.5+pos.z)
-			local items = minetest.env:get_objects_inside_radius(pos, 1)
-			for i,item in ipairs(items) do
-				if not item:is_player() then
+			
+			--pick up items
+			for i=1,inv:get_size("out") do
+				local stack = inv:get_stack("out", i)
+				if not stack:is_empty() then
+					local item =  minetest.env:add_entity(self.object:getpos(), "__builtin:item")
+					item:get_luaentity():set_item(stack:get_name().." "..stack:get_count())
+					item:get_luaentity().pickup = pos
 					table.insert(self.items, item)
-				elseif TRANSPORT_PLAYER then
-					table.insert(self.items, item)
+					inv:remove_item("out", stack)
 				end
 			end
 		end
@@ -676,11 +738,7 @@ function cart:on_rightclick(clicker)
 		end
 		
 		-- start sound
-		self.sound_handler = minetest.sound_play(SOUND_FILE, {
-			object = self.object,
-			gain = SOUND_GAIN,
-			loop = true,
-		})
+		self:sound("start")
 		
 		self.fahren = true
 	end
@@ -689,23 +747,34 @@ end
 -- remove the cart and place it in the inventory
 function cart:on_punch(hitter)
 	-- stop sound
-	if self.sound_handler ~= nil then
-		minetest.sound_stop(self.sound_handler)
-		self.sound_handler = nil
-	end
+	self:sound("stop")
 	self.object:remove()
 	hitter:get_inventory():add_item("main", "carts:cart")
 end
 
 -- save the probprties of the cart if unloaded
 function cart:get_staticdata()
-	local str = tostring(self.fahren)
+	--[[local str = tostring(self.fahren)
 	str = str..","
 	if self.fahren then
 		str = str..self.dir
 	end
-	self.object:setvelocity({x=0, y=0, z=0})
-	return str
+	self.object:setvelocity({x=0, y=0, z=0})]]
+	minetest.debug("[cartsDebug] ===get_staticdata()===")
+	minetest.debug("[cartsDebug] "..minetest.pos_to_string(self.object:getpos()))
+	local table = {
+		fahren = self.fahren,
+		fallen = self.fallen,
+		bremsen = self.bremsen,
+		dir = self.dir,
+		old_dir = self.old_dir,
+		items = self.items,
+		weiche = self.weiche,
+		sound_handler = self.sound_handler,
+	}
+	minetest.debug("[cartsDebug] => "..minetest.serialize(table))
+	self:sound("stop")
+	return minetest.serialize(table)
 end
 
 -- set gravity
@@ -713,13 +782,30 @@ function cart:on_activate(staticdata)
 	self.object:setacceleration({x = 0, y = -10, z = 0})
 	self.items = {}
 	if staticdata ~= nil then
-		-- if the cart was unloaded
+		minetest.debug("[cartsDebug] ===on_activate()===")
+		--[[ if the cart was unloaded
 		if string.find(staticdata, ",") ~= nil then
 			-- restore the probprties
 			if string.sub(staticdata, 1, string.find(staticdata, ",")-1)=="true" then
 				self.dir = string.sub(staticdata, string.find(staticdata, ",")+1)
 				self.old_dir = dir
 				self.fahren = true
+			end
+		end]]
+		local table = minetest.deserialize(staticdata)
+		if table ~= nil then
+			minetest.debug("[cartsDebug] Fuege tabelle ein")
+			self.fahren = table.fahren
+			self.fallen = table.fallen
+			self.bremsen = table.bremsen
+			self.dir = table.dir
+			self.old_dir = table.old_dir
+			self.items = table.items
+			self.weiche = table.weiche
+			self.sound_handler = table.sound_handler
+			
+			if self.fahren then
+				self:sound("start")
 			end
 		end
 	end

@@ -33,7 +33,7 @@ dofile (madblocks_modpath .. "/crafts.lua")
 --		OPTIONAL - comment to disable
 --		*****************************
 dofile (madblocks_modpath .. "/lights.lua")			-- glow nodes, spotlights, searchlights
-dofile (madblocks_modpath .. "/nature.lua")			--	random plant growth and seasonal changes
+--dofile (madblocks_modpath .. "/nature.lua")			--	random plant growth and seasonal changes
 dofile (madblocks_modpath .. "/hydroponics.lua")	-- grow food and drink under controlled conditions
 dofile (madblocks_modpath .. "/bookmarks.lua")		-- public (nameable) bookmarks for POI's
 dofile (madblocks_modpath .. "/multinode.lua")		-- fill, remove, replace nodes,... on large areas

@@ -2,7 +2,8 @@
 ****
 Map Tools
 by Calinou
-Version 12.05.28
+Version 12.08.31
+Licensed under WTFPL.
 ****
 --]]
 
@@ -12,57 +13,116 @@ ITEM CODES FOR SPAWNING THE ITEMS USING /GIVE OR /GIVEME:
 
 Items:
 
-- maptools:pick_admin
+- admin_pick
 Purple pickaxe, infinite durability, mines everything including unbreakable blocks instantly. Don't put this pickaxe in the hands of a griefer, of course. :)
 
-- maptools:infinitefuel
+- infinitefuel
 Fuel lasting for a (near)-infinite time. Don't worry about the "near" - it lasts for about 50 in-real-life years.
 
-- maptools:superapple
+- superapple
 An apple which heals all 10 hearts.
 
-- maptools:copper_coin
-- maptools:silver_coin
-- maptools:gold_coin
+- copper_coin
+- silver_coin
+- gold_coin
 These have nothing to do with the More Ores mod; they can be used as a currency for trading, or as an universal currency for mods that add shops.
 
 Blocks:
-A /!\ denotes an unpointable, unbreakable block; be very careful with them, they cannot be removed.
+A /!\ denotes an unpointable, unbreakable block; be very careful with them, they cannot be removed by hand (they can only be removed with WorldEdit).
 
-- maptools:(insert block name here)
+- (insert block name here)u ---- example: stone_u
 Unbreakable, non-flammable, non-falling, non-decaying blocks, most common blocks have their unbreakable form (examples: maptools:stone or maptools:wood for unbreakable stone/wood).
 
-- maptools:fullgrass
+- fullgrass
 Unbrakable block with the "grass" texture on all sides.
 
-- maptools:playerclip
+- playerclip
 /!\ Invisible block, not pointable.
 
-- maptools:fullclip
+- fullclip
 Invisible block, pointable.
 
-- maptools:smoke
+- smoke_block
 Some smoke.
 
-- maptools:nobuild
+- nobuild
 /!\ Building prevention.
 
-- maptools:nointeract
+- nointeract
 Prevents interacting through the block (interacting as in opening chests, furnaces, attacking entities...).
 
-- maptools:damage_(insert damage in half hearts here)
+- damage_(insert damage in half hearts here)
 /!\ Damaging blocks. The damage is in half hearts and ranges from 1 to 5 (0.5 to 2.5 hearts damage every second).
 
-- maptools:kill
+- killblock
 /!\ Instant kill (deals 10 heart damage) blocks.
 
-- maptools:lightblock
+- lightblock
 /!\ Invisible non-solid block, prevents light from passing through.
 
-- maptools:lightbulb
+- lightbulb
 /!\ Invisible non-solid block, emitting a good amount of light.
 
 --]]
+
+-- Aliases
+
+minetest.register_alias("adminpick", "maptools:pick_admin")
+minetest.register_alias("adminpickaxe", "maptools:pick_admin")
+minetest.register_alias("admin_pick", "maptools:pick_admin")
+minetest.register_alias("admin_pickaxe", "maptools:pick_admin")
+minetest.register_alias("pick_admin", "maptools:pick_admin")
+minetest.register_alias("pickaxe_admin", "maptools:pick_admin")
+minetest.register_alias("pickadmin", "maptools:pick_admin")
+minetest.register_alias("pickaxeadmin", "maptools:pick_admin")
+minetest.register_alias("infinitefuel", "maptools:infinitefuel")
+minetest.register_alias("infinite_fuel", "maptools:infinitefuel")
+minetest.register_alias("ifuel", "maptools:infinitefuel")
+minetest.register_alias("superapple", "maptools:superapple")
+minetest.register_alias("super_apple", "maptools:superapple")
+minetest.register_alias("sapple", "maptools:superapple")
+minetest.register_alias("nobuild", "maptools:nobuild")
+minetest.register_alias("nointeract", "maptools:nointeract")
+minetest.register_alias("damage_1", "maptools:damage_1")
+minetest.register_alias("damage_2", "maptools:damage_2")
+minetest.register_alias("damage_3", "maptools:damage_3")
+minetest.register_alias("damage_4", "maptools:damage_4")
+minetest.register_alias("damage_5", "maptools:damage_5")
+minetest.register_alias("killblock", "maptools:kill")
+minetest.register_alias("kill_block", "maptools:kill")
+minetest.register_alias("lightblock", "maptools:lightblock")
+minetest.register_alias("light_block", "maptools:lightblock")
+minetest.register_alias("lightbulb", "maptools:lightbulb")
+minetest.register_alias("light_bulb", "maptools:lightbulb")
+minetest.register_alias("playerclip", "maptools:playerclip")
+minetest.register_alias("player_clip", "maptools:playerclip")
+minetest.register_alias("pclip", "maptools:playerclip")
+minetest.register_alias("fullclip", "maptools:fullclip")
+minetest.register_alias("full_clip", "maptools:fullclip")
+minetest.register_alias("fclip", "maptools:fullclip")
+
+-- Unbreakable block aliases
+
+minetest.register_alias("stone_u", "maptools:stone")
+minetest.register_alias("tree_u", "maptools:tree")
+minetest.register_alias("cobble_u", "maptools:cobble")
+minetest.register_alias("wood_u", "maptools:wood")
+minetest.register_alias("sand_u", "maptools:sand")
+minetest.register_alias("gravel_u", "maptools:gravel")
+minetest.register_alias("brick_u", "maptools:brick")
+minetest.register_alias("dirt_u", "maptools:dirt")
+minetest.register_alias("glass_u", "maptools:glass")
+minetest.register_alias("sandstone_u", "maptools:sandstone")
+minetest.register_alias("desert_stone_u", "maptools:desert_stone")
+minetest.register_alias("desertstone_u", "maptools:desert_stone")
+minetest.register_alias("desert_sand_u", "maptools:desert_sand")
+minetest.register_alias("desertsand_u", "maptools:desert_sand")
+minetest.register_alias("leaves_u", "maptools:leaves")
+minetest.register_alias("grass_u", "maptools:glass")
+minetest.register_alias("fullgrass", "maptools:fullgrass")
+minetest.register_alias("fullgrass_u", "maptools:fullgrass")
+minetest.register_alias("mossycobble_u", "maptools:mossycobble")
+minetest.register_alias("mossy_cobble_u", "maptools:mossycobble")
 
 -- Crafting
 
@@ -72,6 +132,16 @@ minetest.register_craft({
 	type = "fuel",
 	recipe = "maptools:infinitefuel",
 	burntime = 1000000000,
+})
+
+-- Redefine cloud so that admin pickaxe can mine it
+
+minetest.register_node(":default:cloud", {
+	description = "Cloud",
+	tiles = {"default_cloud.png"},
+	is_ground_content = true,
+	groups = {unbreakable=1},
+	sounds = default.node_sound_defaults(),
 })
 
 -- Blocks
@@ -215,6 +285,8 @@ minetest.register_node("maptools:brick", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+--------
+
 minetest.register_node("maptools:playerclip", {
 	description = "Player Clip",
 	drawtype = "airlike",
@@ -239,6 +311,7 @@ minetest.register_node("maptools:lightblock", {
 	drawtype = "airlike",
 	walkable = false,
 	pointable = false,
+	buildable_to = true,
 	is_ground_content = true,
 	groups = {unbreakable=1},
 })
@@ -250,6 +323,7 @@ minetest.register_node("maptools:lightbulb", {
 	pointable = false,
 	light_source = LIGHT_MAX - 1,
 	paramtype = "light",
+	buildable_to = true,
 	sunlight_propagates = true,
 	is_ground_content = true,
 	groups = {unbreakable=1},
@@ -283,6 +357,7 @@ minetest.register_node("maptools:climb", {
 	climbable = true,
 	pointable = false,
 	is_ground_content = true,
+	buildable_to = true,
 	paramtype = "light",
 	sunlight_propagates = true,
 	groups = {unbreakable=1},
@@ -384,9 +459,6 @@ minetest.register_node("maptools:ladder", {
 	walkable = false,
 	selection_box = {
 		type = "wallmounted",
-		--wall_top = = <default>
-		--wall_bottom = = <default>
-		--wall_side = = <default>
 	},
 	groups = {unbreakable=1},
 	sounds = default.node_sound_wood_defaults(),
