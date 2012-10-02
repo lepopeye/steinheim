@@ -17,7 +17,7 @@ minetest.register_globalstep(function(dtime)
 		local position = obj:getpos()
 		position.y = position.y+1.5
 		local nodename = minetest.env:get_node(position).name
-		if string.find(nodename, "default:water") then
+		if string.find(nodename, "default:water") or nodename=="default:gravel" or nodename=="default:sand" or nodename=="default:desert_sand" then
 			if lestimer[""..obj:get_player_name()..""]==nil then
 				lestimer[""..obj:get_player_name()..""]= os.clock()
 			end
