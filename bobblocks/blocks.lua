@@ -2,7 +2,7 @@
 -- State Changes
 -- Simplify and modify by Jat
 
-local couleurs={"black","cyan","magenta","white","yellow","red","orange","pink","grey","green","blue"}
+local couleurs={"black","cyan","violet","white","yellow","red","orange","pink","grey","green","blue"}
 local a=0
 
 local update_bobblock = function (pos, node)
@@ -114,7 +114,7 @@ for a=1,table.getn(couleurs) do
 	minetest.register_craft({
 		output = "bobblocks:"..couleurs[a].."block 2", 
 		recipe = {
-			{"default:glass 1", "default:torch 1", "madblocks:dye_"..couleurs[a].." 1"},
+			{"default:glass 1", "default:torch 1", "dye:"..couleurs[a].." 1"},
 		},
 	})
 	--Pole

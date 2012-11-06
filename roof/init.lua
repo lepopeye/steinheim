@@ -5,15 +5,15 @@
 -- 		v 0.5
 
 local COLORS = {	
-	rose 	=	'madblocks:dye_red',
-	yellow	=	'madblocks:dye_yellow',
-	tulip	=	'madblocks:dye_blue',
-	viola	=	'madblocks:dye_magenta',
-	green	=	'madblocks:dye_green',
+	rose 	=	'dye:red',
+	yellow	=	'dye:yellow',
+	tulip	=	'dye:blue',
+	viola	=	'dye:violet',
+	green	=	'dye:green',
 	glass	=	'default:sand',
-	gray	=	'madblocks:dye_grey',
-	black	=	'madblocks:dye_black',
-	white	=	'madblocks:dye_white',
+	gray	=	'dye:grey',
+	black	=	'dye:black',
+	white	=	'dye:white',
 	obsidian	=	'obsidian:obsidian_block'
 }
 
