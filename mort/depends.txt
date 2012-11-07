@@ -1,1 +1,3 @@
 default
+inventory_plus
+bags
