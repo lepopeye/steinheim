@@ -1,9 +1,3 @@
-mesecon:add_rules("microcontroller_all", { --flat rules (looks better with nodebox wires connection)
-{x = 1, y = 0, z = 0 },
-{x = 0, y = 0, z = 1 },
-{x = -1, y = 0, z = 0},
-{x = 0, y = 0, z = -1}})
-
 EEPROM_SIZE = 255
 
 for a = 0, 1 do
@@ -87,7 +81,7 @@ minetest.register_node(nodename, {
 		elseif fields.bnand then
 			fields.code = "sbi(C, !A|!B) :A and B are inputs, C is output"
 		elseif fields.btflop then
-			fields.code = "if(A)sbi(1,1); if(!A&#1&B)off(B)sbi(1,0); if(!A&#1&!B)on(B)sbi(1,0); :A is input, B is output (Q), toggles with falling edge"
+			fields.code = "if(A)sbi(1,1);if(!A&#1)sbi(B,!B)sbi(1,0); if(C)off(B,1); :A is input, B is output (Q), C is reset, toggles with falling edge"
 		elseif fields.brsflop then
 			fields.code = "if(A)on(C);if(B)off(C); :A is S (Set), B is R (Reset), C is output (R dominates)"
 		elseif fields.program or fields.code then --nothing
@@ -114,9 +108,15 @@ if (a == 1) then table.insert(rules, {x = -1, y = 0, z =  0}) end
 if (b == 1) then table.insert(rules, {x =  0, y = 0, z =  1}) end
 if (c == 1) then table.insert(rules, {x =  1, y = 0, z =  0}) end
 if (d == 1) then table.insert(rules, {x =  0, y = 0, z = -1}) end
+
+local input_rules={}
+if (a == 0) then table.insert(input_rules, {x = -1, y = 0, z =  0}) end
+if (b == 0) then table.insert(input_rules, {x =  0, y = 0, z =  1}) end
+if (c == 0) then table.insert(input_rules, {x =  1, y = 0, z =  0}) end
+if (d == 0) then table.insert(input_rules, {x =  0, y = 0, z = -1}) end
 mesecon:add_rules(nodename, rules)
 
-mesecon:register_effector(nodename, nodename, mesecon:get_rules("microcontroller_all"))
+mesecon:register_effector(nodename, nodename, input_rules)
 if nodename ~= "mesecons_microcontroller:microcontroller0000" then
 	mesecon:add_receptor_node(nodename, rules)
 end
@@ -171,9 +171,8 @@ function yc_code_remove_commentary(code)
 	is_string = false
 	for i = 1, #code do
 		if code:sub(i, i) == '"' then
-			is_string = (is_string==false) --toggle is_string
-		end
-		if code:sub(i, i) == ":" and is_string==false then
+			is_string = not is_string --toggle is_string
+		elseif code:sub(i, i) == ":" and not is_string then
 			return code:sub(1, i-1)
 		end
 	end
@@ -181,12 +180,13 @@ function yc_code_remove_commentary(code)
 end
 
 function yc_parsecode(code, pos)
+	local meta = minetest.env:get_meta(pos)
 	local endi = 1
 	local Lreal = yc_get_real_portstates(pos)
 	local Lvirtual = yc_get_virtual_portstates(pos)
 	if Lvirtual == nil then return nil end
 	local c
-	local eeprom = minetest.env:get_meta(pos):get_string("eeprom")
+	local eeprom = meta:get_string("eeprom")
 	while true do
 		command, endi = parse_get_command(code, endi)
 		if command == nil then return nil end
@@ -569,29 +569,17 @@ end
 
 --Real I/O functions
 function yc_action(pos, L) --L-->Lvirtual
-	Lv = yc_get_virtual_portstates(pos)
-	local meta = minetest.env:get_meta(pos)
-	local code = meta:get_string("code")
-	local afterid = meta:get_int("afterid")
-	local heat = meta:get_int("heat")
-	local eeprom = meta:get_string("eeprom")
-	local infotext   = meta:get_string("infotext")
-	local formspec = meta:get_string("formspec")
+	local Lv = yc_get_virtual_portstates(pos)
+	local metatable = minetest.env:get_meta(pos):to_table()
 	local name = "mesecons_microcontroller:microcontroller"
 		..tonumber(L.d and 1 or 0)
 		..tonumber(L.c and 1 or 0)
 		..tonumber(L.b and 1 or 0)
 		..tonumber(L.a and 1 or 0)
 	minetest.env:add_node(pos, {name=name})
-	local meta = minetest.env:get_meta(pos)
-	meta:set_string("code", code)
-	meta:set_int("heat", heat)
-	meta:set_int("afterid", afterid)
-	meta:set_string("eeprom", eeprom)
-	meta:set_string("infotext", infotext)
-	meta:set_string("formspec", formspec)
+	minetest.env:get_meta(pos):from_table(metatable)
 
-	yc_action_setports(pos, L, Lv, rules)
+	yc_action_setports(pos, L, Lv)
 end
 
 function yc_action_setports(pos, L, Lv)
@@ -602,7 +590,7 @@ function yc_action_setports(pos, L, Lv)
 		if L.a == true then mesecon:receptor_on(pos, rules)
 		else mesecon:receptor_off(pos, rules) end
 	end
-	if Lv.b ~= L.b then 
+	if Lv.b ~= L.b then
 		rules = mesecon:get_rules(name.."0010")
 		if L.b == true then mesecon:receptor_on(pos, rules)
 		else mesecon:receptor_off(pos, rules) end
@@ -692,7 +680,7 @@ end
 
 function yc_overheat_off(pos)
 	rules = mesecon:get_rules("mesecons_microcontroller:microcontroller1111")
-	mesecon:receptor_off(pos, rules);
+	mesecon:receptor_off(pos, rules)
 end
 
 mesecon:register_on_signal_change(function(pos, node)
