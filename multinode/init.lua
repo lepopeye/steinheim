@@ -11,7 +11,7 @@ WITH = {}
 ACTIONNODE = function(nodeid, nodename,onplace,ondig)
 	local params = {
 		description = nodename,
-		tile_images = {"multinode_"..nodeid..".png"},
+		tiles = {"multinode_"..nodeid..".png"},
 		inventory_image = minetest.inventorycube("multinode_"..nodeid..".png"),
 		is_ground_content = true,
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,flammable=3},
@@ -703,7 +703,7 @@ end
 
 minetest.register_node("multinode:hsmap", {
 	description = "sphere gen",
-	tile_images = {"default_mese.png"},
+	tiles = {"default_mese.png"},
 	inventory_image = "default_mese.png",
 	wield_image = "default_mese.png",
 	paramtype = "light",
@@ -815,7 +815,7 @@ minetest.register_abm({
 minetest.register_node("multinode:pump", {
 	description = "pump",
 
-	tile_images = {"default_cobble.png"},
+	tiles = {"default_cobble.png"},
 	inventory_image = "default_cobble.png",
 	wield_image = "default_cobble.png",
 	paramtype = "light",

@@ -11,7 +11,7 @@ PLANTS = {
 PLANTLIKE = function(nodeid, nodename,type,option)
 	if option == nil then option = false end
 
-	local params ={ description = nodename, drawtype = "plantlike", tile_images = {"hydro_"..nodeid..'.png'}, 
+	local params ={ description = nodename, drawtype = "plantlike", tiles = {"hydro_"..nodeid..'.png'}, 
 	inventory_image = "hydro_"..nodeid..'.png',	wield_image = "hydro_"..nodeid..'.png', paramtype = "light",	}
 		
 	if type == 'veg' then
@@ -43,7 +43,7 @@ GLOWLIKE = function(nodeid,nodename,drawtype)
 	minetest.register_node("hydro:"..nodeid, {
 		description = nodename,
 		drawtype = drawtype,
-		tile_images = {"hydro_"..nodeid..".png"},
+		tiles = {"hydro_"..nodeid..".png"},
 		inventory_image = inv_image,
 		light_propagates = true,
 		paramtype = "light",
@@ -60,14 +60,14 @@ PLANTLIKE('coffeecup','Coffee Cup','eat',2)
 GLOWLIKE('growlamp','Growlamp','plantlike')
 minetest.register_node("hydro:promix", {
 	description = "Promix",
-	tile_images = {"hydro_promix.png"},
+	tiles = {"hydro_promix.png"},
 	is_ground_content = true,
 	groups = {crumbly=3},
 	sounds = default.node_sound_dirt_defaults(),
 })
 minetest.register_node("hydro:roastedcoffee", {
 	description = "Roasted Coffee",
-	tile_images = {"hydro_roastedcoffee.png"},
+	tiles = {"hydro_roastedcoffee.png"},
 	inventory_image = minetest.inventorycube("hydro_roastedcoffee.png"),
 	is_ground_content = true,
 	groups = {snappy=2,cracky=3,oddly_breakable_by_hand=3},
@@ -77,7 +77,7 @@ minetest.register_node("hydro:rosebush", {
 	description = "Rose Bush",
 	drawtype = "allfaces_optional",
 	visual_scale = 1.3,
-	tile_images = {"hydro_rosebush.png"},
+	tiles = {"hydro_rosebush.png"},
 	paramtype = "light",
 	groups = {snappy=3,  flammable=2},
 	sounds = default.node_sound_leaves_defaults(),
@@ -99,7 +99,7 @@ for index,plant in pairs(PLANTS) do
 		description = "Wild Plant",
 		drawtype = "plantlike",
 		visual_scale = 1.0,
-		tile_images = {"hydro_wildplant.png"},
+		tiles = {"hydro_wildplant.png"},
 		paramtype = "light",
 		walkable = false,
 		groups = {snappy=3,flammable=3},
@@ -113,7 +113,7 @@ for index,plant in pairs(PLANTS) do
 	minetest.register_node("hydro:seeds_"..plant.name, {
 		description = plant.name.." Seeds",
 		drawtype = "signlike",
-		tile_images = {"hydro_seeds.png"},
+		tiles = {"hydro_seeds.png"},
 		inventory_image = "hydro_seeds.png",
 		wield_image = "hydro_seeds.png",
 		paramtype = "light",
@@ -134,7 +134,7 @@ for index,plant in pairs(PLANTS) do
 	minetest.register_node('hydro:seedlings_'..plant.name, {
 		drawtype = 'plantlike',
 		visual_scale = 1.0,
-		tile_images = { 'hydro_seedlings.png' },
+		tiles = { 'hydro_seedlings.png' },
 		inventory_image = 'hydro_seedlings.png',
 		sunlight_propagates = true,
 		paramtype = 'light',
@@ -147,7 +147,7 @@ for index,plant in pairs(PLANTS) do
 	minetest.register_node('hydro:sproutlings_' .. plant.name, {
 		drawtype = 'plantlike',
 		visual_scale = 1.0,
-		tile_images = { 'hydro_sproutlings.png' },
+		tiles = { 'hydro_sproutlings.png' },
 		inventory_image = 'hydro_sproutlings.png',
 		sunlight_propagates = true,
 		paramtype = 'light',
@@ -161,7 +161,7 @@ for index,plant in pairs(PLANTS) do
 		description = 'Tomato Plant (Young)',
 		drawtype = 'plantlike',
 		visual_scale = 1.0,
-		tile_images = { 'hydro_'..plant.name..'1.png' },
+		tiles = { 'hydro_'..plant.name..'1.png' },
 		inventory_image = 'hydro_'..plant.name..'1.png',
 		sunlight_propagates = true,
 		paramtype = 'light',
@@ -184,7 +184,7 @@ for index,plant in pairs(PLANTS) do
 		description = 'Tomato Plant (Youngish)',
 		drawtype = 'plantlike',
 		visual_scale = 1.0,
-		tile_images = { 'hydro_'..plant.name..'2.png' },
+		tiles = { 'hydro_'..plant.name..'2.png' },
 		inventory_image = 'hydro_'..plant.name..'2.png',
 		sunlight_propagates = true,
 		paramtype = 'light',
@@ -198,7 +198,7 @@ for index,plant in pairs(PLANTS) do
 		description = 'Tomato Plant (Fruitings)',
 		drawtype = 'plantlike',
 		visual_scale = 1.0,
-		tile_images = { 'hydro_'..plant.name..'3.png' },
+		tiles = { 'hydro_'..plant.name..'3.png' },
 		inventory_image = 'hydro_'..plant.name..'3.png',
 		sunlight_propagates = true,
 		paramtype = 'light',
@@ -217,7 +217,7 @@ for index,plant in pairs(PLANTS) do
 		description = 'Tomato Plant (Ripe)',
 		drawtype = 'plantlike',
 		visual_scale = 1.0,
-		tile_images = { 'hydro_'..plant.name..'4.png' },
+		tiles = { 'hydro_'..plant.name..'4.png' },
 		inventory_image = 'hydro_'..plant.name..'4.png',
 		sunlight_propagates = true,
 		paramtype = 'light',
@@ -243,7 +243,7 @@ for index,plant in pairs(PLANTS) do
 			description = plant.name,
 			drawtype = "plantlike",
 			visual_scale = 1.0,
-			tile_images = {"hydro_"..plant.name..".png"},
+			tiles = {"hydro_"..plant.name..".png"},
 			inventory_image = "hydro_"..plant.name..".png",
 			paramtype = "light",
 			sunlight_propagates = true,
