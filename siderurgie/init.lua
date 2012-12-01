@@ -181,7 +181,6 @@ minetest.register_node("siderurgie:panneaugaz", {
 	paramtype2 = "wallmounted",
 	sunlight_propagates = true,
 	walkable = false,
-	metadata_name = "sign",
 	selection_box = {
 		type = "wallmounted",
 		--wall_top = <default>
