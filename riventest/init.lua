@@ -933,7 +933,6 @@ GLOWLIKE = function(nodeid,nodename,drawtype)
 		drawtype = drawtype,
 		tiles = {"riventest_"..nodeid..".png"},
 		inventory_image = inv_image,
-		light_propagates = true,
 		paramtype = "light",
 		sunlight_propagates = true,
 		light_source = 15	,
@@ -1004,7 +1003,7 @@ SOUNDNODE = function(nodeid, nodename,drawtype)
 			paramtype2 = "wallmounted",
 			sunlight_propagates = true,
 			walkable = false,
-			metadata_name = "sign",
+			on_add = "sign",
 			selection_box = {
 				type = "wallmounted",
 				--wall_top = <default>
@@ -1140,7 +1139,6 @@ minetest.register_node("riventest:rt16", {
 	wield_image = "riventest_rt16.png",
 	paramtype = "light",
 	paramtype2 = "wallmounted",
-	light_propagates = true,
 	sunlight_propagates = true,
 	light_source = 10,
 	walkable = false,
@@ -1204,7 +1202,7 @@ minetest.register_node("riventest:water_flowing", {
 	liquid_alternative_source = "riventest:water_source",
 	liquid_viscosity = WATER_VISC,
 	post_effect_color = {a=64, r=100, g=100, b=200},
-	special_materials = {
+	special_tiles = {
 		{image="riventest_altwater.png", backface_culling=false},
 		{image="riventest_altwater.png", backface_culling=true},
 	},
@@ -1228,7 +1226,7 @@ minetest.register_node("riventest:water_source", {
 	liquid_alternative_source = "riventest:water_source",
 	liquid_viscosity = WATER_VISC,
 	post_effect_color = {a=64, r=100, g=100, b=200},
-	special_materials = {
+	special_tiles = {
 		-- New-style water source material (mostly unused)
 		{image="riventest_altwater.png", backface_culling=false},
 	},
@@ -1243,7 +1241,6 @@ minetest.register_node("riventest:beetle", {
 	wield_image = "riventest_beetle.png",
 	paramtype = "light",
 	paramtype2 = "wallmounted",
-	light_propagates = true,
 	sunlight_propagates = true,
 	light_source = 10,
 	walkable = false,
@@ -1268,7 +1265,7 @@ minetest.register_node("riventest:dagger", {
 	paramtype2 = "wallmounted",
 	sunlight_propagates = true,
 	walkable = false,
-	metadata_name = "sign",
+	on_add = "sign",
 	selection_box = {
 		type = "wallmounted",
 		--wall_top = <default>

@@ -45,7 +45,6 @@ GLOWLIKE = function(nodeid,nodename,drawtype)
 		drawtype = drawtype,
 		tiles = {"hydro_"..nodeid..".png"},
 		inventory_image = inv_image,
-		light_propagates = true,
 		paramtype = "light",
 		sunlight_propagates = true,
 		light_source = 15	,

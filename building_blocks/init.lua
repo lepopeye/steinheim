@@ -404,13 +404,12 @@ minetest.register_tool("building_blocks:knife", {
 	tool_capabilities = {
 		max_drop_level=0,
 		groupcaps={
-			choppy={times={[2]=7.50, [3]=2.80}, maxwear=0.01, maxlevel=.1},
-			fleshy={times={[2]=5.50, [3]=2.80}, maxwear=0.01, maxlevel=.1}
+			choppy={times={[2]=7.50, [3]=2.80}, uses=1/0.01, maxlevel=.1},
+			fleshy={times={[2]=5.50, [3]=2.80}, uses=1/0.01, maxlevel=.1}
 		}
 	},
 })
-minetest.add_to_creative_inventory('building_blocks:Tar 0')
-minetest.add_to_creative_inventory('building_blocks:hardwood 0')
+
 minetest.register_craft({
 	output = "building_blocks:Marble 9",
 	recipe = {
