@@ -548,7 +548,7 @@ minetest.register_craft({
 
 minetest.register_node("moreblocks:junglewood", {
 	description = "Jungle Wooden Planks",
-	tile_images = {"moreblocks_junglewood.png"},
+	tiles = {"moreblocks_junglewood.png"},
 	is_ground_content = true,
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,flammable=3},
 	sounds = default.node_sound_wood_defaults(),
@@ -556,7 +556,7 @@ minetest.register_node("moreblocks:junglewood", {
 
 minetest.register_node("moreblocks:stonebrick", {
 	description = "Stone Bricks",
-	tile_images = {"moreblocks_stonebrick.png"},
+	tiles = {"moreblocks_stonebrick.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -564,7 +564,7 @@ minetest.register_node("moreblocks:stonebrick", {
 
 minetest.register_node("moreblocks:circlestonebrick", {
 	description = "Circle Stone Bricks",
-	tile_images = {"moreblocks_circlestonebrick.png"},
+	tiles = {"moreblocks_circlestonebrick.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -572,7 +572,7 @@ minetest.register_node("moreblocks:circlestonebrick", {
 
 minetest.register_node("moreblocks:ironstonebrick", {
 	description = "Iron Stone Bricks",
-	tile_images = {"moreblocks_ironstonebrick.png"},
+	tiles = {"moreblocks_ironstonebrick.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -580,7 +580,7 @@ minetest.register_node("moreblocks:ironstonebrick", {
 
 minetest.register_node("moreblocks:stonesquare", {
 	description = "Stonesquare",
-	tile_images = {"moreblocks_stonesquare.png"},
+	tiles = {"moreblocks_stonesquare.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -588,7 +588,7 @@ minetest.register_node("moreblocks:stonesquare", {
 
 minetest.register_node("moreblocks:splitstonesquare", {
 	description = "Split Stonesquare",
-	tile_images = {"moreblocks_splitstonesquare_top.png", "moreblocks_splitstonesquare.png"},
+	tiles = {"moreblocks_splitstonesquare_top.png", "moreblocks_splitstonesquare.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -596,7 +596,7 @@ minetest.register_node("moreblocks:splitstonesquare", {
 
 minetest.register_node("moreblocks:plankstone", {
 	description = "Plankstone",
-	tile_images = {"moreblocks_plankstone.png"},
+	tiles = {"moreblocks_plankstone.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -605,7 +605,7 @@ minetest.register_node("moreblocks:plankstone", {
 minetest.register_node("moreblocks:ironglass", {
 	description = "Iron Glass",
 	drawtype = "glasslike",
-	tile_images = {"moreblocks_ironglass.png"},
+	tiles = {"moreblocks_ironglass.png"},
 	light_propagates = true,
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -617,7 +617,7 @@ minetest.register_node("moreblocks:ironglass", {
 minetest.register_node("moreblocks:coalglass", {
 	description = "Coal Glass",
 	drawtype = "glasslike",
-	tile_images = {"moreblocks_coalglass.png"},
+	tiles = {"moreblocks_coalglass.png"},
 	light_propagates = true,
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -629,7 +629,7 @@ minetest.register_node("moreblocks:coalglass", {
 minetest.register_node("moreblocks:cleanglass", {
 	description = "Clean Glass",
 	drawtype = "glasslike",
-	tile_images = {"moreblocks_cleanglass.png"},
+	tiles = {"moreblocks_cleanglass.png"},
 	light_propagates = true,
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -641,7 +641,7 @@ minetest.register_node("moreblocks:cleanglass", {
 
 minetest.register_node("moreblocks:cactusbrick", {
 	description = "Cactus Brick",
-	tile_images = {"moreblocks_cactusbrick.png"},
+	tiles = {"moreblocks_cactusbrick.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -649,7 +649,7 @@ minetest.register_node("moreblocks:cactusbrick", {
 
 minetest.register_node("moreblocks:cactuschecker", {
 	description = "Cactus Checker",
-	tile_images = {"moreblocks_cactuschecker.png"},
+	tiles = {"moreblocks_cactuschecker.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -657,7 +657,7 @@ minetest.register_node("moreblocks:cactuschecker", {
 
 minetest.register_node("moreblocks:emptybookshelf", {
 	description = "Empty Bookshelf",
-	tile_images = {"default_wood.png", "default_wood.png", "moreblocks_emptybookshelf.png"},
+	tiles = {"default_wood.png", "default_wood.png", "moreblocks_emptybookshelf.png"},
 	is_ground_content = true,
 	groups = {snappy=2,choppy=3,oddly_breakable_by_hand=2,flammable=3},
 	sounds = default.node_sound_wood_defaults(),
@@ -665,7 +665,7 @@ minetest.register_node("moreblocks:emptybookshelf", {
 
 minetest.register_node("moreblocks:oerkkiblock", {
 	description = "Oerkki Block",
-	tile_images = {"moreblocks_oerkkiblock.png"},
+	tiles = {"moreblocks_oerkkiblock.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -673,7 +673,7 @@ minetest.register_node("moreblocks:oerkkiblock", {
 
 minetest.register_node("moreblocks:coalstone", {
 	description = "Coalstone",
-	tile_images = {"moreblocks_coalstone.png"},
+	tiles = {"moreblocks_coalstone.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -681,7 +681,7 @@ minetest.register_node("moreblocks:coalstone", {
 
 minetest.register_node("moreblocks:ironstone", {
 	description = "Ironstone",
-	tile_images = {"moreblocks_ironstone.png"},
+	tiles = {"moreblocks_ironstone.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -689,7 +689,7 @@ minetest.register_node("moreblocks:ironstone", {
 
 minetest.register_node("moreblocks:coalchecker", {
 	description = "Coalchecker",
-	tile_images = {"moreblocks_coalchecker.png"},
+	tiles = {"moreblocks_coalchecker.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -697,7 +697,7 @@ minetest.register_node("moreblocks:coalchecker", {
 
 minetest.register_node("moreblocks:ironchecker", {
 	description = "Ironchecker",
-	tile_images = {"moreblocks_ironchecker.png"},
+	tiles = {"moreblocks_ironchecker.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -705,7 +705,7 @@ minetest.register_node("moreblocks:ironchecker", {
 
 minetest.register_node("moreblocks:trapstone", {
 	description = "Trapstone",
-	tile_images = {"moreblocks_trapstone.png"},
+	tiles = {"moreblocks_trapstone.png"},
 	walkable = false,
 	is_ground_content = true,
 	groups = {cracky=3},
@@ -715,7 +715,7 @@ minetest.register_node("moreblocks:trapstone", {
 minetest.register_node("moreblocks:trapglass", {
 	description = "Trapglass",
 	drawtype = "glasslike",
-	tile_images = {"moreblocks_trapglass.png"},
+	tiles = {"moreblocks_trapglass.png"},
 	light_propagates = true,
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -728,7 +728,7 @@ minetest.register_node("moreblocks:trapglass", {
 minetest.register_node("moreblocks:fence_junglewood", {
 	description = "Jungle Wood Fence",
 	drawtype = "fencelike",
-	tile_images = {"moreblocks_junglewood.png"},
+	tiles = {"moreblocks_junglewood.png"},
 	inventory_image = "moreblocks_junglewood_fence.png",
 	wield_image = "moreblocks_junglewood_fence.png",
 	paramtype = "light",
@@ -743,7 +743,7 @@ minetest.register_node("moreblocks:fence_junglewood", {
 
 minetest.register_node("moreblocks:horizontaltree", {
 	description = "Horizontal Tree",
-	tile_images = {"default_tree.png", "default_tree.png", "moreblocks_horizontaltree.png",
+	tiles = {"default_tree.png", "default_tree.png", "moreblocks_horizontaltree.png",
 		"moreblocks_horizontaltree.png", "default_tree_top.png", "default_tree_top.png"},
 	paramtype2 = "facedir",
 	groups = {tree=1,snappy=1,choppy=2,oddly_breakable_by_hand=1,flammable=2},
@@ -753,7 +753,7 @@ minetest.register_node("moreblocks:horizontaltree", {
 
 minetest.register_node("moreblocks:horizontaljungletree", {
 	description = "Horizontal Jungletree",
-	tile_images = {"default_jungletree.png", "default_jungletree.png", "moreblocks_horizontaljungletree.png",
+	tiles = {"default_jungletree.png", "default_jungletree.png", "moreblocks_horizontaljungletree.png",
 		"moreblocks_horizontaljungletree.png", "default_jungletree_top.png", "default_jungletree_top.png"},
 	paramtype2 = "facedir",
 	groups = {tree=1,snappy=1,choppy=2,oddly_breakable_by_hand=1,flammable=2},
@@ -763,7 +763,7 @@ minetest.register_node("moreblocks:horizontaljungletree", {
 
 minetest.register_node("moreblocks:allfacestree", {
 	description = "All-faces Tree",
-	tile_images = {"default_tree_top.png"},
+	tiles = {"default_tree_top.png"},
 	groups = {tree=1,snappy=1,choppy=2,oddly_breakable_by_hand=1,flammable=2},
 	sounds = default.node_sound_wood_defaults(),
 	furnace_burntime = 30,
@@ -772,7 +772,7 @@ minetest.register_node("moreblocks:allfacestree", {
 minetest.register_node("moreblocks:glowglass", {
 	description = "Glowglass",
 	drawtype = "glasslike",
-	tile_images = {"moreblocks_glowglass.png"},
+	tiles = {"moreblocks_glowglass.png"},
 	light_propagates = true,
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -785,7 +785,7 @@ minetest.register_node("moreblocks:glowglass", {
 minetest.register_node("moreblocks:superglowglass", {
 	description = "Super Glowglass",
 	drawtype = "glasslike",
-	tile_images = {"moreblocks_glowglass.png"},
+	tiles = {"moreblocks_glowglass.png"},
 	light_propagates = true,
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -798,7 +798,7 @@ minetest.register_node("moreblocks:superglowglass", {
 minetest.register_node("moreblocks:rope", {
 	description = "Rope",
 	drawtype = "signlike",
-	tile_images = {"moreblocks_rope.png"},
+	tiles = {"moreblocks_rope.png"},
 	inventory_image = "moreblocks_rope.png",
 	wield_image = "moreblocks_rope.png",
 	paramtype = "light",
