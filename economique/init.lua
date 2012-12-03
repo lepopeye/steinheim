@@ -157,7 +157,10 @@ local marchandlist={{"apple", 20, "default:apple 1"},
 					{"sapling", 5, "default:sapling 1"},
 					{"sand", 1, "default:sand 1"},
 					{"torch", 150, "default:torch 1"},
-					{"wood", 50, "default:wood 1"}
+					{"wood", 50, "default:wood 1"},
+					{"ironingot",2100,"default:steel_ingot 1"},
+					{"lumpcoal",300,"default:coal_lump 1"},
+					{"stone",200,"default:stone 1"}
 					}
 for a=1,table.getn(marchandlist) do
 	minetest.register_node("economique:marchand_icone_"..marchandlist[a][1].."", {
@@ -245,8 +248,8 @@ minetest.register_on_punchnode(function(p, node, player)
 	elseif node.name=="economique:marchanda" or node.name=="economique:marchandb" then
 		--Toujour prendre la plus grand largeur pour chaque ligne (sauf la dernier ) et le "O" est le cube d'origine et la dernier ligne le cube "on" "off"
 		menu({{"economique:marchand_icone_"..marchandlist[1][1].."","","","","","","economique:marchand_icone_"..marchandlist[2][1]..""},
-			{"economique:marchand_icone_"..marchandlist[3][1].."","","","","","","economique:marchand_icone_"..marchandlist[4][1]..""},
-			{"economique:marchand_icone_"..marchandlist[5][1].."","economique:marchand_icone_"..marchandlist[6][1].."","","","","economique:marchand_icone_"..marchandlist[7][1].."","economique:marchand_icone_"..marchandlist[8][1]..""},
+			{"economique:marchand_icone_"..marchandlist[3][1].."","","","economique:marchand_icone_"..marchandlist[17][1].."","","","economique:marchand_icone_"..marchandlist[4][1]..""},
+			{"economique:marchand_icone_"..marchandlist[5][1].."","economique:marchand_icone_"..marchandlist[6][1].."","economique:marchand_icone_"..marchandlist[15][1].."","","economique:marchand_icone_"..marchandlist[16][1].."","economique:marchand_icone_"..marchandlist[7][1].."","economique:marchand_icone_"..marchandlist[8][1]..""},
 			{"economique:marchand_icone_"..marchandlist[9][1].."","economique:marchand_icone_"..marchandlist[10][1].."","economique:marchand_icone_"..marchandlist[11][1].."","O","economique:marchand_icone_"..marchandlist[12][1].."","economique:marchand_icone_"..marchandlist[13][1].."","economique:marchand_icone_"..marchandlist[14][1]..""},
 			{"economique:marchanda","economique:marchandb"}},p,node)
 	end	
