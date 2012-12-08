@@ -3,7 +3,7 @@
 Licence GPLv2 or later for code
 --]]
 
--- Pour a ajouter un méssage écrive entre les {"blabla"} et pour les suivant ,"blabla"
+-- Pour ajouter un message écrire entre les {"blabla"} et pour les suivant ,"blabla"
 local lesmessage={"Attention minetest 0.4.4 est sortie, veuillez mettre à jour votre client.","Forum: http://steinheim.xooit.fr"}
 local timer = 0
 
