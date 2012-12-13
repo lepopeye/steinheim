@@ -38,7 +38,7 @@ minetest.register_node("economique:banquea", {
     is_ground_content = false,
     walkable = true,
     pointable = true,
-    diggable = false,
+    groups = {unbreakable=1},
 })
 
 minetest.register_node("economique:banqueb", {
@@ -47,7 +47,7 @@ minetest.register_node("economique:banqueb", {
     is_ground_content = false,
     walkable = true,
     pointable = true,
-    diggable = false,
+    groups = {unbreakable=1},
 })
 
 --Icone
@@ -57,7 +57,8 @@ minetest.register_node("economique:banque_icone_ironingot_pi", {
     is_ground_content = false,
     walkable = true,
     pointable = true,
-    diggable = false,
+    groups = {unbreakable=1},
+	drop = "",
 })
 
 minetest.register_node("economique:banque_icone_lumpcoal_pc", {
@@ -66,7 +67,8 @@ minetest.register_node("economique:banque_icone_lumpcoal_pc", {
     is_ground_content = false,
     walkable = true,
     pointable = true,
-    diggable = false,
+    groups = {unbreakable=1},
+	drop = "",
 })
 
 minetest.register_node("economique:banque_icone_stone_ps", {
@@ -75,7 +77,8 @@ minetest.register_node("economique:banque_icone_stone_ps", {
     is_ground_content = false,
     walkable = true,
     pointable = true,
-    diggable = false,
+    groups = {unbreakable=1},
+	drop = "",
 })
 
 --More ores
@@ -86,7 +89,8 @@ minetest.register_node("economique:banque_icone_lumpcopper_pc", {
     is_ground_content = false,
     walkable = true,
     pointable = true,
-    diggable = false,
+    groups = {unbreakable=1},
+	drop = "",
 })
 minetest.register_node("economique:banque_icone_lumptin_pc", {
 	description = "",
@@ -94,7 +98,8 @@ minetest.register_node("economique:banque_icone_lumptin_pc", {
     is_ground_content = false,
     walkable = true,
     pointable = true,
-    diggable = false,
+    groups = {unbreakable=1},
+	drop = "",
 })
 minetest.register_node("economique:banque_icone_lumpsilver_pc", {
 	description = "",
@@ -102,7 +107,8 @@ minetest.register_node("economique:banque_icone_lumpsilver_pc", {
     is_ground_content = false,
     walkable = true,
     pointable = true,
-    diggable = false,
+    groups = {unbreakable=1},
+	drop = "",
 })
 minetest.register_node("economique:banque_icone_lumpgold_pc", {
 	description = "",
@@ -110,7 +116,8 @@ minetest.register_node("economique:banque_icone_lumpgold_pc", {
     is_ground_content = false,
     walkable = true,
     pointable = true,
-    diggable = false,
+    groups = {unbreakable=1},
+	drop = "",
 })
 minetest.register_node("economique:banque_icone_lumpmithril_pc", {
 	description = "",
@@ -118,7 +125,8 @@ minetest.register_node("economique:banque_icone_lumpmithril_pc", {
     is_ground_content = false,
     walkable = true,
     pointable = true,
-    diggable = false,
+    groups = {unbreakable=1},
+	drop = "",
 })
 
 --Cube marchand
@@ -130,7 +138,7 @@ minetest.register_node("economique:marchanda", {
     is_ground_content = false,
     walkable = true,
     pointable = true,
-    diggable = false,
+    groups = {unbreakable=1},
 })
 minetest.register_node("economique:marchandb", {
 	description = "Marche",
@@ -138,7 +146,7 @@ minetest.register_node("economique:marchandb", {
     is_ground_content = false,
     walkable = true,
     pointable = true,
-    diggable = false,
+    groups = {unbreakable=1},
 })
 
 
@@ -169,23 +177,14 @@ for a=1,table.getn(marchandlist) do
 		is_ground_content = false,
 		walkable = true,
 		pointable = true,
-		diggable = false,
+		groups = {unbreakable=1},
+		drop = "",
 	})
 end
 
---Cube effaceur
-minetest.register_node("economique:effaceur", {
-	description = "Efface lui meme et ce qui il y a en dessous",
-	tiles = {"economique_effaceur.png"},
-    is_ground_content = false,
-    walkable = true,
-    pointable = true,
-    diggable = false,
-})
 --Alias
 minetest.register_alias("banque", "economique:banquea")
 minetest.register_alias("marchand", "economique:marchanda")
-minetest.register_alias("effaceur", "economique:effaceur")
 --Function a modifier pour faire un mod
 local function menu(marchand,p,node)
 	local a=0
@@ -317,14 +316,4 @@ minetest.register_on_punchnode(function(p, node, player)
 			break
 		end
 	end
-		
-	--cube effaceur
-	if node.name=="economique:effaceur" then
-		minetest.env:remove_node(p)
-		p.y=p.y-1
-		minetest.env:remove_node(p)
-	end
 end)
-
-
-
