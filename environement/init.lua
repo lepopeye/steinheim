@@ -16,8 +16,7 @@ minetest.register_globalstep(function(dtime)
 	for _,obj in ipairs(minetest.get_connected_players()) do
 		local position = obj:getpos()
 		position.y = position.y+1.5
-		local nodename = minetest.env:get_node(position).name
-		if string.find(nodename, "default:water") or nodename=="default:gravel" or nodename=="default:sand" or nodename=="default:desert_sand" then
+		if minetest.registered_nodes[minetest.env:get_node(position).name].drawtype == "normal" or minetest.registered_nodes[minetest.env:get_node(position).name].drawtype == "liquid" or minetest.registered_nodes[minetest.env:get_node(position).name].drawtype == "flowingliquid" or minetest.registered_nodes[minetest.env:get_node(position).name].drawtype == "glasslike" then
 			if lestimer[""..obj:get_player_name()..""]==nil then
 				lestimer[""..obj:get_player_name()..""]= os.clock()
 			end
