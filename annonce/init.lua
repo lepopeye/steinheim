@@ -9,7 +9,6 @@ Licence GPLv2 or later for code
 local lesmessage=	{
 					{"Astuce: Pour efface des items veuillez les mettres dans votre main et fait /pulverize"},
 					{"Astuce: Il y a un systeme de commerce au-dessus du spawn."},
-					{"Attention minetest 0.4.4 est sortie, veuillez mettre a jour votre client."},
 					{"Forum: http://steinheim.xooit.fr"}
 					}
 local timer = 0
