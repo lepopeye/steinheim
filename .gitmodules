@@ -1,0 +1,3 @@
+[submodule "farming"]
+path = farming
+url = git://github.com/PilzAdam/farming.git
