@@ -4,6 +4,13 @@
 
 local couleurs={"black","cyan","violet","white","yellow","red","orange","pink","grey","green","blue"}
 local a=0
+local rulesbobblocks =	{	{x=0, y=0, z=-1},
+							{x=0, y=0, z=1},
+							{x=1, y=0, z=0},
+							{x=-1, y=0, z=0}, 
+							{x=0, y=1, z=0},
+							{x=0, y=-1, z=0}
+						}
 
 local update_bobblock = function (pos, node)
     local nodename=""
@@ -45,20 +52,7 @@ end
 minetest.register_on_punchnode(on_bobblock_punched)
 
 -- Nodes
--- Misc Node
 
-minetest.register_node("bobblocks:btm", {
-	description = "Bobs TransMorgifier v5",
-    tiles = {"bobblocks_btm_sides.png", "bobblocks_btm_sides.png", "bobblocks_btm_sides.png",
-		"bobblocks_btm_sides.png", "bobblocks_btm_sides.png", "bobblocks_btm.png"},
-    inventory_image = "bobblocks_btm.png",
-	paramtype2 = "facedir",
-	legacy_facedir_simple = true,
-    groups = {snappy=2,cracky=3,oddly_breakable_by_hand=3},
-})
-
-
--- Start Block Nodes
 for a=1,table.getn(couleurs) do
 	--Block
 	minetest.register_node("bobblocks:"..couleurs[a].."block", {
@@ -72,6 +66,11 @@ for a=1,table.getn(couleurs) do
 		sounds = default.node_sound_glass_defaults(),
 		light_source = LIGHT_MAX-0,
 		groups = {snappy=2,cracky=3,oddly_breakable_by_hand=3},
+		mesecons =	{conductor ={
+					state = mesecon.state.on,
+					offstate = "bobblocks:"..couleurs[a].."block_off",
+					rules = rulesbobblocks
+					}},
 	})
 
 	minetest.register_node("bobblocks:"..couleurs[a].."block_off", {
@@ -81,6 +80,11 @@ for a=1,table.getn(couleurs) do
 --		alpha = WATER_ALPHA,
 		groups = {snappy=2,cracky=3,oddly_breakable_by_hand=3},
 		drop = "bobblocks:"..couleurs[a].."block",
+		mesecons =	{conductor ={
+					state = mesecon.state.off,
+					onstate = "bobblocks:"..couleurs[a].."block",
+					rules = rulesbobblocks
+					}},
 	})
 	--Pole
 	minetest.register_node("bobblocks:"..couleurs[a].."pole", {
@@ -94,6 +98,11 @@ for a=1,table.getn(couleurs) do
 		sounds = default.node_sound_glass_defaults(),
 		light_source = LIGHT_MAX-0,
 		groups = {snappy=2,cracky=3,oddly_breakable_by_hand=3},
+		mesecons =	{conductor ={
+					state = mesecon.state.on,
+					offstate = "bobblocks:"..couleurs[a].."pole_off",
+					rules = rulesbobblocks
+					}},
 	})
 
 	minetest.register_node("bobblocks:"..couleurs[a].."pole_off", {
@@ -108,6 +117,11 @@ for a=1,table.getn(couleurs) do
 		light_source = LIGHT_MAX-10,
 		groups = {snappy=2,cracky=3,oddly_breakable_by_hand=3},
 		drop = "bobblocks:"..couleurs[a].."pole",
+				mesecons =	{conductor ={
+					state = mesecon.state.off,
+					onstate = "bobblocks:"..couleurs[a].."pole",
+					rules = rulesbobblocks
+					}},
 	})
 	--Craft
 	--Block
@@ -127,36 +141,3 @@ for a=1,table.getn(couleurs) do
 	})
 end
 
--- Crafts
--- BTM
-minetest.register_craft({
-	output = 'NodeItem "bobblocks:btm" 1',
-	recipe = {
-		{'node "default:glass" 1', 'node "default:torch" 1', 'node "default:leaves" 1',
-        'node "default:mese" 1','node "default:rat" 1'},
-
-	},
-})
-
--- MESECON
--- Add jeija to bobblocks\default.txt and paste the below in at the bottom of bobblocks\blocks.lua
-
-mesecon:register_on_signal_on(function (pos, node)
-	local c=0
-	for c=1,table.getn(couleurs) do	
-		if node.name == "bobblocks:"..couleurs[c].."block_off" or node.name == "bobblocks:"..couleurs[c].."pole_off" then
-			update_bobblock (pos, node, state)
-			break
-		end
-	end
-end)
-    
-mesecon:register_on_signal_off(function (pos, node)
-	local c=0
-	for c=1,table.getn(couleurs) do
-		if node.name == "bobblocks:"..couleurs[c].."block" or node.name == "bobblocks:"..couleurs[c].."pole" then
-			update_bobblock (pos, node, state)
-			break
-        end
-	end
-end)

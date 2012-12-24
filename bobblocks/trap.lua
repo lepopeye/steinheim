@@ -130,7 +130,7 @@ minetest.register_craft({
 	recipe = {
 		{'', '', ''},
 		{'', 'default:cobble', ''},
-		{'default:cobble', 'default:apple', 'default:cobble'},
+		{'default:cobble', 'default:steel_ingot', 'default:cobble'},
 	}
 })
 
@@ -138,8 +138,8 @@ minetest.register_craft({
 	output = 'bobblocks:trap_spike_major',
 	recipe = {
 		{'', 'default:cobble', ''},
-		{'', 'default:apple', ''},
-		{'default:cobble', 'default:apple', 'default:cobble'},
+		{'', 'default:steel_ingot', ''},
+		{'default:cobble', 'default:steel_ingot', 'default:cobble'},
 	}
 })
 
