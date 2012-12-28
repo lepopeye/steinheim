@@ -86,7 +86,7 @@ minetest.register_node("fluide:seve_source", {			-- Declaration du nom de l'item
 --*****************************************
 
 minetest.register_abm(									-- fonction permettant d'assigner une action à un bloc
-    {nodenames = {"fluide:seve_flowing"},							-- nom du bloc
+    {nodenames = {"fluide:seve_flowing","fluide:seve_source"},							-- nom du bloc
     interval = 1.0,									-- ???
     chance = 1,										-- ???
     action = function(pos, node, active_object_count, active_object_count_wider)	-- fonction associée au bloc
@@ -130,7 +130,8 @@ minetest.register_node("fluide:or_flowing", {			-- on enregistre le nom de l'ite
 	liquidtype = "flowing",					-- //
 	liquid_alternative_flowing = "fluide:or_flowing",	-- //
 	liquid_alternative_source = "fluide:or_source",		-- //
-	liquid_viscosity = WATER_VISC,				-- //
+	liquid_viscosity = WATER_VISC,
+	damage_per_second = 20*2,
 	post_effect_color = {a=64, r=100, g=100, b=200},	-- //
 	groups = {water=3, liquid=3, puts_out_fire=1},		-- //
 	
@@ -161,28 +162,10 @@ minetest.register_node("fluide:or_source", {			-- Declaration du nom de l'item
 	liquidtype = "source",
 	liquid_alternative_flowing = "fluide:or_flowing",	-- //
 	liquid_alternative_source = "fluide:or_source",		-- //
-	liquid_viscosity = WATER_VISC,				-- //
+	liquid_viscosity = WATER_VISC,
+	damage_per_second = 20*2,
 	post_effect_color = {a=64, r=100, g=100, b=200},	-- //
 	groups = {water=3, liquid=3, puts_out_fire=1},		-- //
-})
-
-
-
---**********************************************
--- On se fait tuer si on touche une source d'Or
---**********************************************
-
-minetest.register_abm(									-- fonction permettant d'assigner une action à un bloc
-    {nodenames = {"fluide:or_flowing"},							-- nom du bloc
-    interval = 1.0,									-- ???
-    chance = 1,										-- ???
-    action = function(pos, node, active_object_count, active_object_count_wider)	-- fonction associée au bloc
-    local objs = minetest.env:get_objects_inside_radius(pos, 1)				-- variable d'environnement : quand le joueur est dans le bloc
-        for k, obj in pairs(objs) do							-- boucle "for" : 
-        obj:set_hp(obj:get_hp()-20)     -- give 1HP					-- augmenter la vie HP du joueur de +1
-    end
-    end,
-     
 })
 
 --=========================================================================================================================================================
