@@ -2,7 +2,6 @@
 
 local update_bobtrap = function (pos, node)
     local nodename=""
-    local param2=""
     --Switch Trap State
     if 
     -- Swap Traps
@@ -14,54 +13,31 @@ local update_bobtrap = function (pos, node)
     minetest.env:add_node(pos, {name = nodename})
 end
 
--- Punch Traps    
-local on_bobtrap_punched = function (pos, node, puncher)
-    if 
-       -- Start Traps
-       node.name == 'bobblocks:trap_spike' or node.name == 'bobblocks:trap_spike_set'  or
-       node.name == 'bobblocks:trap_spike_major' or node.name == 'bobblocks:trap_spike_major_set'  
-    then
-        update_bobtrap(pos, node)
-    end
-end
-
-minetest.register_on_punchnode(on_bobtrap_punched)
-
 
 --ABM (Spring The Traps)
 
 minetest.register_abm(
-	{nodenames = {"bobblocks:trap_spike_set"},
-    interval = 1.0,
+	{nodenames = {"bobblocks:trap_spike_set","bobblocks:trap_spike_major_set"},
+    interval = 0.25,
     chance = 1,
     action = function(pos, node, active_object_count, active_object_count_wider)
-    local objs = minetest.env:get_objects_inside_radius(pos, 1)
+		local objs = minetest.env:get_objects_inside_radius(pos, 1)
         for k, obj in pairs(objs) do
-        
-        update_bobtrap(pos, node)
-    end
+			minetest.sound_play("bobblocks_trap_fall",{pos = pos, gain = 1.0, max_hear_distance = 3,})
+			if node.name == "bobblocks:trap_spike_set" then
+				obj:set_hp(obj:get_hp()-1)
+			elseif node.name == "bobblocks:trap_spike_major_set" then
+					obj:set_hp(obj:get_hp()-100)
+			end
+			update_bobtrap(pos, node)
+		end
     end,
      
 })
-
-minetest.register_abm(
-	{nodenames = {"bobblocks:trap_spike_major_set"},
-    interval = 1.0,
-    chance = 1,
-    action = function(pos, node, active_object_count, active_object_count_wider)
-    local objs = minetest.env:get_objects_inside_radius(pos, 1)
-        for k, obj in pairs(objs) do
-        
-        update_bobtrap(pos, node)
-    end
-    end,
-     
-})
-
-
 
 
 -- Nodes
+
 minetest.register_node("bobblocks:trap_grass", {
 	description = "Trap Grass",
     tiles = {"default_grass.png"},
@@ -83,6 +59,12 @@ minetest.register_node("bobblocks:trap_spike", {
     walkable = false,
 	sunlight_propagates = true,
     groups = {cracky=3,melty=3},
+	on_construct = function(pos)
+		minetest.env:get_node_timer(pos):start(2)
+	end,
+	on_timer = function(pos,elapsed)
+		minetest.env:add_node(pos, {name="bobblocks:trap_spike_set"})
+	end,
 })
 
 minetest.register_node("bobblocks:trap_spike_set", {
@@ -95,6 +77,10 @@ minetest.register_node("bobblocks:trap_spike_set", {
 	sunlight_propagates = true,
     groups = {cracky=3,melty=3},
     drop = 'bobblocks:trap_spike',
+	on_punch = function(pos, node, puncher)
+		minetest.sound_play("bobblocks_trap_fall",{pos = pos, gain = 1.0, max_hear_distance = 3,})  
+        update_bobtrap(pos, node)
+	end,
 })
 
 
@@ -108,6 +94,12 @@ minetest.register_node("bobblocks:trap_spike_major", {
     walkable = false,
 	sunlight_propagates = true,
     groups = {cracky=2,melty=2},
+	on_construct = function(pos)
+		minetest.env:get_node_timer(pos):start(2)
+	end,
+	on_timer = function(pos,elapsed)
+		minetest.env:add_node(pos, {name="bobblocks:trap_spike_major_set"})
+	end,
 })
 
 minetest.register_node("bobblocks:trap_spike_major_set", {
@@ -120,6 +112,10 @@ minetest.register_node("bobblocks:trap_spike_major_set", {
 	sunlight_propagates = true,
     groups = {cracky=3,melty=3},
     drop = 'bobblocks:trap_spike',
+	on_punch = function(pos, node, puncher)
+		minetest.sound_play("bobblocks_trap_fall",{pos = pos, gain = 1.0, max_hear_distance = 3,})  
+        update_bobtrap(pos, node)
+	end,
 })
 
 
@@ -150,34 +146,4 @@ minetest.register_craft({
 		{'', 'default:dirt', ''},
 		{'', 'default:stick', ''},
 	}
-})
-
--- ABM
-minetest.register_abm(
-	{nodenames = {"bobblocks:trap_spike"},
-    interval = 1.0,
-    chance = 1,
-    action = function(pos, node, active_object_count, active_object_count_wider)
-    local objs = minetest.env:get_objects_inside_radius(pos, 1)
-        for k, obj in pairs(objs) do
-        obj:set_hp(obj:get_hp()-1)
-        minetest.sound_play("bobblocks_trap_fall",
-	    {pos = pos, gain = 1.0, max_hear_distance = 3,})
-    end
-    end,
-})
-
-minetest.register_abm(
-	{nodenames = {"bobblocks:trap_spike_major"},
-    interval = 1.0,
-    chance = 1,
-    action = function(pos, node, active_object_count, active_object_count_wider)
-    local objs = minetest.env:get_objects_inside_radius(pos, 1)
-        for k, obj in pairs(objs) do
-            obj:set_hp(obj:get_hp()-100)
-        minetest.sound_play("bobblocks_trap_fall",
-	    {pos = pos, gain = 1.0, max_hear_distance = 3,})            
-        end
-    end,
-
 })
