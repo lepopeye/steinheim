@@ -63,7 +63,9 @@ minetest.register_node("bobblocks:trap_spike", {
 		minetest.env:get_node_timer(pos):start(2)
 	end,
 	on_timer = function(pos,elapsed)
-		minetest.env:add_node(pos, {name="bobblocks:trap_spike_set"})
+		if minetest.env:get_node(pos).name=="bobblocks:trap_spike" then
+			minetest.env:add_node(pos, {name="bobblocks:trap_spike_set"})
+		end
 	end,
 })
 
@@ -98,7 +100,9 @@ minetest.register_node("bobblocks:trap_spike_major", {
 		minetest.env:get_node_timer(pos):start(2)
 	end,
 	on_timer = function(pos,elapsed)
-		minetest.env:add_node(pos, {name="bobblocks:trap_spike_major_set"})
+		if minetest.env:get_node(pos).name=="bobblocks:trap_spike_major" then
+			minetest.env:add_node(pos, {name="bobblocks:trap_spike_major_set"})
+		end
 	end,
 })
 
