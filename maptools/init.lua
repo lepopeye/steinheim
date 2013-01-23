@@ -2,8 +2,7 @@
 ****
 Map Tools
 by Calinou
-Version 12.08.31
-Licensed under WTFPL.
+Licensed under the zlib/libpng license for code and CC BY-SA 3.0 Unported for textures, see LICENSE.txt for info.
 ****
 --]]
 
@@ -30,7 +29,7 @@ These have nothing to do with the More Ores mod; they can be used as a currency 
 Blocks:
 A /!\ denotes an unpointable, unbreakable block; be very careful with them, they cannot be removed by hand (they can only be removed with WorldEdit).
 
-- (insert block name here)u ---- example: stone_u
+- (insert block name here)_u ---- example: stone_u
 Unbreakable, non-flammable, non-falling, non-decaying blocks, most common blocks have their unbreakable form (examples: maptools:stone or maptools:wood for unbreakable stone/wood).
 
 - fullgrass
@@ -101,6 +100,10 @@ minetest.register_alias("fullclip", "maptools:fullclip")
 minetest.register_alias("full_clip", "maptools:fullclip")
 minetest.register_alias("fclip", "maptools:fullclip")
 
+-- For people used to *Radiant :D
+minetest.register_alias("weaponclip", "maptools:fullclip")
+minetest.register_alias("weapon_clip", "maptools:fullclip")
+
 -- Unbreakable block aliases
 
 minetest.register_alias("stone_u", "maptools:stone")
@@ -140,7 +143,7 @@ minetest.register_node(":default:cloud", {
 	description = "Cloud",
 	tiles = {"default_cloud.png"},
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_defaults(),
 })
 
@@ -150,14 +153,14 @@ minetest.register_node("maptools:stone", {
 	description = "Unbreakable Stone",
 	tiles = {"default_stone.png"},
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node("maptools:tree", {
 	description = "Unbreakable Tree",
 	tiles = {"default_tree.png"},
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_wood_defaults(),
 	is_ground_content = true,
 })
@@ -166,7 +169,7 @@ minetest.register_node("maptools:dirt", {
 	description = "Unbreakable Dirt",
 	tiles = {"default_dirt.png"},
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_dirt_defaults(),
 })
 
@@ -174,7 +177,7 @@ minetest.register_node("maptools:wood", {
 	description = "Unbreakable Wood",
 	tiles = {"default_wood.png"},
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -185,7 +188,7 @@ minetest.register_node("maptools:glass", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_glass_defaults(),
 })
 
@@ -195,7 +198,7 @@ minetest.register_node("maptools:leaves", {
 	tiles = {"default_leaves.png"},
 	paramtype = "light",
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_leaves_defaults(),
 })
 
@@ -203,7 +206,7 @@ minetest.register_node("maptools:sand", {
 	description = "Unbreakable Sand",
 	tiles = {"default_sand.png"},
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_sand_defaults(),
 })
 
@@ -211,7 +214,7 @@ minetest.register_node("maptools:gravel", {
 	description = "Unbreakable Gravel",
 	tiles = {"default_gravel.png"},
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_gravel_footstep", gain=0.45},
 	}),
@@ -221,7 +224,7 @@ minetest.register_node("maptools:desert_sand", {
 	description = "Unbreakable Desert Sand",
 	tiles = {"default_desert_sand.png"},
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_sand_defaults(),
 })
 
@@ -229,7 +232,7 @@ minetest.register_node("maptools:sandstone", {
 	description = "Unbreakable Sandstone",
 	tiles = {"default_sandstone.png"},
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -237,7 +240,7 @@ minetest.register_node("maptools:desert_stone", {
 	description = "Unbreakable Desert Stone",
 	tiles = {"default_desert_stone.png"},
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -245,7 +248,7 @@ minetest.register_node("maptools:grass", {
 	description = "Unbreakable Dirt with Grass",
 	tiles = {"default_grass.png", "default_dirt.png", "default_dirt.png^default_grass_side.png"},
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_grass_footstep", gain=0.4},
 	}),
@@ -255,7 +258,7 @@ minetest.register_node("maptools:fullgrass", {
 	description = "Unbreakable Full Grass",
 	tiles = {"default_grass.png"},
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_grass_footstep", gain=0.4},
 	}),
@@ -265,7 +268,7 @@ minetest.register_node("maptools:cobble", {
 	description = "Unbreakable Cobble",
 	tiles = {"default_cobble.png"},
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -273,7 +276,7 @@ minetest.register_node("maptools:mossycobble", {
 	description = "Unbreakable Mossy Cobble",
 	tiles = {"default_mossycobble.png"},
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -281,7 +284,7 @@ minetest.register_node("maptools:brick", {
 	description = "Unbreakable Brick",
 	tiles = {"default_brick.png"},
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -294,7 +297,7 @@ minetest.register_node("maptools:playerclip", {
 	pointable = false,
 	sunlight_propagates = true,
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 })
 
 minetest.register_node("maptools:fullclip", {
@@ -303,7 +306,7 @@ minetest.register_node("maptools:fullclip", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 })
 
 minetest.register_node("maptools:lightblock", {
@@ -313,7 +316,7 @@ minetest.register_node("maptools:lightblock", {
 	pointable = false,
 	buildable_to = true,
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 })
 
 minetest.register_node("maptools:lightbulb", {
@@ -326,7 +329,7 @@ minetest.register_node("maptools:lightbulb", {
 	buildable_to = true,
 	sunlight_propagates = true,
 	is_ground_content = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 })
 
 minetest.register_node("maptools:nobuild", {
@@ -337,7 +340,7 @@ minetest.register_node("maptools:nobuild", {
 	is_ground_content = true,
 	paramtype = "light",
 	sunlight_propagates = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 })
 
 minetest.register_node("maptools:nointeract", {
@@ -347,7 +350,7 @@ minetest.register_node("maptools:nointeract", {
 	is_ground_content = true,
 	paramtype = "light",
 	sunlight_propagates = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 })
 
 minetest.register_node("maptools:climb", {
@@ -360,7 +363,7 @@ minetest.register_node("maptools:climb", {
 	buildable_to = true,
 	paramtype = "light",
 	sunlight_propagates = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 })
 
 minetest.register_node("maptools:damage_1", {
@@ -372,7 +375,7 @@ minetest.register_node("maptools:damage_1", {
 	is_ground_content = true,
 	paramtype = "light",
 	sunlight_propagates = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 })
 
 minetest.register_node("maptools:damage_2", {
@@ -384,7 +387,7 @@ minetest.register_node("maptools:damage_2", {
 	is_ground_content = true,
 	paramtype = "light",
 	sunlight_propagates = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 })
 
 minetest.register_node("maptools:damage_3", {
@@ -396,7 +399,7 @@ minetest.register_node("maptools:damage_3", {
 	is_ground_content = true,
 	paramtype = "light",
 	sunlight_propagates = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 })
 
 minetest.register_node("maptools:damage_4", {
@@ -408,7 +411,7 @@ minetest.register_node("maptools:damage_4", {
 	is_ground_content = true,
 	paramtype = "light",
 	sunlight_propagates = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 })
 
 minetest.register_node("maptools:damage_5", {
@@ -420,7 +423,7 @@ minetest.register_node("maptools:damage_5", {
 	is_ground_content = true,
 	paramtype = "light",
 	sunlight_propagates = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 })
 
 minetest.register_node("maptools:kill", {
@@ -432,7 +435,7 @@ minetest.register_node("maptools:kill", {
 	is_ground_content = true,
 	paramtype = "light",
 	sunlight_propagates = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 })
 
 minetest.register_node("maptools:smoke", {
@@ -443,7 +446,7 @@ minetest.register_node("maptools:smoke", {
 	is_ground_content = true,
 	paramtype = "light",
 	sunlight_propagates = true,
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	post_effect_color = {a=127, r=127, g=127, b=127},
 })
 
@@ -460,7 +463,7 @@ minetest.register_node("maptools:ladder", {
 	selection_box = {
 		type = "wallmounted",
 	},
-	groups = {unbreakable=1},
+	groups = {unbreakable=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -469,21 +472,25 @@ minetest.register_node("maptools:ladder", {
 minetest.register_craftitem("maptools:copper_coin", {
 	description = "Copper Coin",
 	inventory_image = "maptools_copper_coin.png",
+	groups = {not_in_creative_inventory=1},
 })
 
 minetest.register_craftitem("maptools:silver_coin", {
 	description = "Silver Coin",
 	inventory_image = "maptools_silver_coin.png",
+	groups = {not_in_creative_inventory=1},
 })
 
 minetest.register_craftitem("maptools:gold_coin", {
 	description = "Gold Coin",
 	inventory_image = "maptools_gold_coin.png",
+	groups = {not_in_creative_inventory=1},
 })
 
 minetest.register_craftitem("maptools:infinitefuel", {
 	description = "Infinite Fuel",
 	inventory_image = "maptools_infinitefuel.png",
+	groups = {not_in_creative_inventory=1},
 })
 
 minetest.register_node("maptools:superapple", {
@@ -495,7 +502,7 @@ minetest.register_node("maptools:superapple", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
-	groups = {fleshy=3,dig_immediate=3},
+	groups = {fleshy=3, dig_immediate=3, not_in_creative_inventory=1},
 	on_use = minetest.item_eat(20),
 	sounds = default.node_sound_defaults(),
 })
@@ -505,10 +512,11 @@ minetest.register_node("maptools:superapple", {
 minetest.register_tool("maptools:pick_admin", {
 	description = "Admin Pickaxe",
 	inventory_image = "maptools_adminpick.png",
+	groups = {not_in_creative_inventory=1},
 	tool_capabilities = {
 		full_punch_interval = 0,
 		max_drop_level=3,
-		groupcaps={
+		groupcaps= {
 			unbreakable={times={[1]=0, [2]=0, [3]=0}, uses=0, maxlevel=3},
 			fleshy = {times={[1]=0, [2]=0, [3]=0}, uses=0, maxlevel=3},
 			choppy={times={[1]=0, [2]=0, [3]=0}, uses=0, maxlevel=3},

@@ -1,13 +1,13 @@
 minetest.register_node("building_blocks:Adobe", {
+	description = "Adobe Block",
 	tiles = {"building_blocks_Adobe.png"},
-	inventory_image = "building_blocks_Adobe.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	sounds = default.node_sound_stone_defaults(),
 })
 minetest.register_node("building_blocks:Roofing", {
+	description = "Roofing Block",
 	tiles = {"building_blocks_Roofing.png"},
-	inventory_image = "building_blocks_Roofing.png",
 	is_ground_content = true,
 	groups = {snappy=3},
 })
@@ -98,9 +98,9 @@ minetest.register_craft({
 	recipe = "default:glass"
 })
 minetest.register_node("building_blocks:smoothglass", {
+	description = "Smooth Glass",
 	drawtype = "glasslike",
 	tiles = {"building_blocks_sglass.png"},
-	inventory_image = "building_blocks_sglass.png",
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = true,
@@ -108,18 +108,18 @@ minetest.register_node("building_blocks:smoothglass", {
 	sounds = default.node_sound_glass_defaults(),
 })
 minetest.register_node("building_blocks:grate", {
+	description = "Grate Glass",
 	drawtype = "glasslike",
 	tiles = {"building_blocks_grate.png"},
-	inventory_image = "building_blocks_grate.png",
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = true,
 	groups = {cracky=1},
 })
 minetest.register_node("building_blocks:Fireplace", {
+	description = "Fire Place block",
 	drawtype = "stonelike",
 	tiles = {"building_blocks_cast_iron.png","building_blocks_cast_iron.png","building_blocks_cast_iron.png","building_blocks_cast_iron_fireplace.png"},
-	inventory_image = "building_blocks_cast_iron.png","building_blocks_cast_iron.png","building_blocks_cast_iron.png","building_blocks_cast_iron_fireplace.png",
 	paramtype = "facedir_simple",
 	light_source = LIGHT_MAX,
 	sunlight_propagates = true,
@@ -127,9 +127,9 @@ minetest.register_node("building_blocks:Fireplace", {
 	groups = {cracky=2},
 })
 minetest.register_node("building_blocks:woodglass", {
+	description = "Wood Glass",
 	drawtype = "glasslike",
 	tiles = {"building_blocks_wglass.png"},
-	inventory_image = "building_blocks_wglass.png",
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = true,
@@ -137,6 +137,7 @@ minetest.register_node("building_blocks:woodglass", {
 	sounds = default.node_sound_glass_defaults(),
 })
 minetest.register_node("building_blocks:terrycloth_towel", {
+	description = "Terry Cloth Towel",
 	drawtype = "raillike",
 	tiles = {"building_blocks_towel.png"},
 	inventory_image = "building_blocks_towel.png",
@@ -144,13 +145,15 @@ minetest.register_node("building_blocks:terrycloth_towel", {
 	walkable = false,
 	selection_box = {
 		type = "fixed",
-		--fixed = <default>
+                -- but how to specify the dimensions for curved and sideways rails?
+                fixed = {-1/2, -1/2, -1/2, 1/2, -1/2+1/16, 1/2},
 	},
 	sunlight_propagates = true,
 	is_ground_content = true,
 	groups = {crumbly=3},
 })
 minetest.register_node("building_blocks:Tarmac_spread", {
+	description = "Tarmac Spread",
 	drawtype = "raillike",
 	tiles = {"tar.png"},
 	inventory_image = "tar.png",
@@ -158,13 +161,15 @@ minetest.register_node("building_blocks:Tarmac_spread", {
 	walkable = false,
 	selection_box = {
 		type = "fixed",
-		--fixed = <default>
+                -- but how to specify the dimensions for curved and sideways rails?
+                fixed = {-1/2, -1/2, -1/2, 1/2, -1/2+1/16, 1/2},
 	},
 	sunlight_propagates = true,
 	is_ground_content = true,
 	groups = {cracky=3},
 })
 minetest.register_node("building_blocks:brobble_spread", {
+	description = "Brobble Spread",
 	drawtype = "raillike",
 	tiles = {"building_blocks_brobble.png"},
 	inventory_image = "building_blocks_brobble.png",
@@ -172,13 +177,15 @@ minetest.register_node("building_blocks:brobble_spread", {
 	walkable = false,
 	selection_box = {
 		type = "fixed",
-		--fixed = <default>
+                -- but how to specify the dimensions for curved and sideways rails?
+                fixed = {-1/2, -1/2, -1/2, 1/2, -1/2+1/16, 1/2},
 	},
 	sunlight_propagates = true,
 	is_ground_content = true,
 	groups = {cracky=3},
 })
 minetest.register_node("building_blocks:gravel_spread", {
+	description = "Gravel Spread",
 	drawtype = "raillike",
 	tiles = {"default_gravel.png"},
 	inventory_image = "default_gravel.png",
@@ -186,15 +193,16 @@ minetest.register_node("building_blocks:gravel_spread", {
 	walkable = false,
 	selection_box = {
 		type = "fixed",
-		--fixed = <default>
+                -- but how to specify the dimensions for curved and sideways rails?
+                fixed = {-1/2, -1/2, -1/2, 1/2, -1/2+1/16, 1/2},
 	},
 	sunlight_propagates = true,
 	is_ground_content = true,
 	groups = {cracky=2},
 })
 minetest.register_node("building_blocks:hardwood", {
+	description = "Hard Wood",
 	tiles = {"building_blocks_hardwood.png"},
-	inventory_image = "building_blocks_hardwood.png",
 	is_ground_content = true,
 	groups = {choppy=1,flammable=1},
 	sounds = default.node_sound_wood_defaults(),
@@ -339,8 +347,8 @@ minetest.register_craft({
 	burntime = 28,
 })
 minetest.register_node("building_blocks:fakegrass", {
+	description = "Fake Grass",
 	tiles = {"default_grass.png", "default_dirt.png", "default_dirt.png^default_grass_side.png"},
-	inventory_image = "default_grass.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 		sounds = default.node_sound_dirt_defaults({
@@ -371,14 +379,13 @@ minetest.register_alias("marble", "building_blocks:Marble")
 minetest.register_node("building_blocks:Tar", {
 	description = "Tar",
 	tiles = {"tar.png"},
-	inventory_image = "tar.png",
 	is_ground_content = true,
 	groups = {crumbly=1},
 	sounds = default.node_sound_stone_defaults(),
 })
 minetest.register_node("building_blocks:Marble", {
+	description = "Marble",
 	tiles = {"marble.png"},
-	inventory_image = "marble.png",
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
