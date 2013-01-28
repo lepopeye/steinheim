@@ -38,6 +38,11 @@ for color, src in pairs(COLORS) do
 		paramtype = 'light',
 		is_ground_content = true,
 		walkable = true,
+		selection_box = {
+			type = "fixed",
+			-- but how to specify the dimensions for curved and sideways rails?
+			fixed = {-1/2, -1/2, -1/2, 1/2, -1/2+1/16, 1/2},
+		},
 		groups = {cracky=3},
 	})
 end
@@ -51,15 +56,20 @@ end
 		}
 	})
 
-	local png = 'roof_straw.png'
-	minetest.register_node('roof:straw', {
-		description = 'Straw',
-		drawtype = 'raillike',
-		tiles = {png,png,png,png},
-		inventory_image = png,
-		wield_image = png,
-		paramtype = 'light',
-		is_ground_content = true,
-		walkable = true,
-		groups = {cracky=3},
-	})
+local png = 'roof_straw.png'
+minetest.register_node('roof:straw', {
+	description = 'Straw',
+	drawtype = 'raillike',
+	tiles = {png,png,png,png},
+	inventory_image = png,
+	wield_image = png,
+	paramtype = 'light',
+	is_ground_content = true,
+	walkable = true,
+	selection_box = {
+		type = "fixed",
+		-- but how to specify the dimensions for curved and sideways rails?
+		fixed = {-1/2, -1/2, -1/2, 1/2, -1/2+1/16, 1/2},
+	},
+	groups = {cracky=3},
+})
