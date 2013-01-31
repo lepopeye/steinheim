@@ -8,7 +8,7 @@ Licence CC-BY-SA for image
 ----A configure a la premiere execution
 local serveur = {x=0,y=997,z=0}
 ----A configure
-local duree_vortex = 15
+local duree_vortex = 30
 ----Fixe
 local couleurs = {"black","blue","brown","cyan","dark_green","dark_grey","green","grey","magenta","orange","pink","red","violet","white","yellow"}
 local timer=0
@@ -48,8 +48,10 @@ minetest.register_globalstep(function(dtime)
 	for pos,v in pairs(tempo) do 
 		if os.difftime(os.time(),v)>duree_vortex or os.difftime(os.time(),v)<0 then
 			local portail=minetest.deserialize(minetest.env:get_meta(pos):get_string("portail"))
-			for c=1,table.getn(portail) do
-				minetest.env:remove_node(portail[c])
+			if not(portail==nil) then
+				for c=1,table.getn(portail) do
+					minetest.env:remove_node(portail[c])
+				end
 			end
 			tempo[pos]=nil
 		end
@@ -102,7 +104,9 @@ minetest.register_node("teleport:portail", {
     pointable = true,
 	groups = {unbreakable=1},
 })
+
 --ABM
+
 minetest.register_abm(
 	{nodenames = {"teleport:portailentree"},
     interval = 1.0,
@@ -124,6 +128,7 @@ minetest.register_node("teleport:socle1", {
     walkable = true,
     pointable = true,
 	groups = {unbreakable=1},
+	drop= "",
 	after_place_node = function(pos, placer)
 		minetest.env:get_meta(pos):set_int("numero", 2)
 		placer:get_inventory():add_item('main', 'teleport:socle2')
@@ -136,7 +141,8 @@ minetest.register_node("teleport:socle2", {
     walkable = true,
     pointable = true,
 	groups = {unbreakable=1},
-		after_place_node = function(pos, placer)
+	drop= "",
+	after_place_node = function(pos, placer)
 		minetest.env:get_meta(pos):set_int("numero", 3)
 		placer:get_inventory():add_item('main', 'teleport:socle3')
 	end,
@@ -148,6 +154,7 @@ minetest.register_node("teleport:socle3", {
     walkable = true,
     pointable = true,
 	groups = {unbreakable=1},
+	drop= "",
 	after_place_node = function(pos, placer)
 		minetest.env:get_meta(pos):set_int("numero", 4)
 		placer:get_inventory():add_item('main', 'teleport:socle4')
@@ -160,6 +167,7 @@ minetest.register_node("teleport:socle4", {
     walkable = true,
     pointable = true,
 	groups = {unbreakable=1},
+	drop= "",
 	after_place_node = function(pos, placer)
 		minetest.env:get_meta(pos):set_int("numero", 5)
 		placer:get_inventory():add_item('main', 'teleport:portail 99')
@@ -172,6 +180,7 @@ minetest.register_node("teleport:socle", {
     walkable = true,
     pointable = true,
 	groups = {unbreakable=1},
+	drop= "",
 	after_place_node = function(pos, placer)
 		minetest.env:get_meta(pos):set_string("adresse",minetest.serialize({"","","",""}))
 		minetest.env:get_meta(pos):set_string("adressecompose",minetest.serialize({"","","","",""}))
@@ -179,6 +188,20 @@ minetest.register_node("teleport:socle", {
 		minetest.env:get_meta(pos):set_string("portail",minetest.serialize())
 		minetest.env:get_meta(pos):set_string("signalisation",minetest.serialize({}))
 		placer:get_inventory():add_item('main', 'teleport:socle1')
+	end,
+	on_destruct = function(pos)
+		local adresse = minetest.deserialize(minetest.env:get_meta(pos):get_string("adresse"))
+		local socle = minetest.deserialize(minetest.env:get_meta(pos):get_string("lessocle"))
+		local serveuradresse = minetest.deserialize(minetest.env:get_meta(serveur):get_string("lesadresse"))
+		if not(adresse[1]=="" or adresse[2]=="" or adresse[3]=="" or adresse[4]=="") then
+			serveuradresse[""..adresse[1]..","..adresse[2]..","..adresse[3]..","..adresse[4]..""] = nil
+			minetest.env:get_meta(serveur):set_string("lesadresse",minetest.serialize(serveuradresse))
+		end		
+		for i=1,table.getn(socle) do
+			if not(socle[i]=="") then
+				minetest.env:remove_node(socle[i])
+			end
+		end
 	end,
 })
 
@@ -233,10 +256,7 @@ minetest.register_node("teleport:pierremulticouleur", {
 		groups = {unbreakable=1},
 		after_place_node = function(pos, placer)
 		local autour=allentour(pos,{"teleport:socle"})
-		if autour==nil then
-			placer:get_inventory():add_item('main', 'teleport:pierremulticouleur 1')
-			minetest.env:remove_node(pos)
-		else
+		if not(autour==nil) then
 			local adressecompose=minetest.deserialize(minetest.env:get_meta(autour):get_string("adressecompose"))
 			adressecompose[1]="teleport:pierremulticouleur"
 			minetest.env:get_meta(autour):set_string("adressecompose",minetest.serialize(adressecompose))
@@ -324,10 +344,7 @@ for i = 1,table.getn(couleurs) do
 		groups = {dig_immediate=3},
 		after_place_node = function(pos, placer)
 			local autour=allentour(pos,{"teleport:socle1","teleport:socle2","teleport:socle3","teleport:socle4"})
-			if autour == nil then
-				placer:get_inventory():add_item("main", "teleport:pierre"..couleurs[i].." 1")
-				minetest.env:remove_node(pos)
-			else
+			if not(autour == nil) then
 				local possocle = minetest.deserialize(minetest.env:get_meta(autour):get_string("position"))
 				local adressecompose = minetest.deserialize(minetest.env:get_meta(possocle):get_string("adressecompose"))
 				local adresse = minetest.deserialize(minetest.env:get_meta(possocle):get_string("adresse"))
@@ -385,7 +402,7 @@ for i = 1,table.getn(couleurs) do
 								minetest.env:get_meta(serveur):set_string("lestempo",minetest.serialize(tempo))
 								--Suppression des pierre
 								for c=1,4 do
-									if 5==math.random(1,10) then	
+									if 25==math.random(1,50) then	
 										minetest.env:remove_node(allentour(lessocle[c],{adressecompose[c+1]}))
 									else
 										minetest.env:add_node(allentour(lessocle[c],{adressecompose[c+1]}), {name="teleport:pierre"})
@@ -423,11 +440,11 @@ for i = 1,table.getn(couleurs) do
 		end,
 	})
 	--Craft
-		minetest.register_craft({
+	minetest.register_craft({
 	output = "teleport:pierre"..couleurs[i].."",
 	recipe = {
 		{"dye:"..couleurs[i]..""},
 		{"teleport:pierre"},
-	}
+		}
 	})
 end
