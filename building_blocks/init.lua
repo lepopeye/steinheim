@@ -14,19 +14,19 @@ minetest.register_node("building_blocks:Roofing", {
 minetest.register_craft({
 	output = 'building_blocks:terrycloth_towel 2',
 	recipe = {
-		{"flowers:cotton", "flowers:cotton", "flowers:cotton"},
+		{"flowers:cotton", "flowers:cotton"},
 	}
 })
 minetest.register_craft({
-	output = 'building_blocks:Tarmac_spread 4',
+	output = 'building_blocks:Tarmac_spread 2',
 	recipe = {
-		{"building_blocks:Tar", "building_blocks:Tar", "building_blocks:Tar"},
+		{"building_blocks:Tar", "building_blocks:Tar"},
 	}
 })
 minetest.register_craft({
-	output = 'building_blocks:gravel_spread 4',
+	output = 'building_blocks:gravel_spread 2',
 	recipe = {
-		{"default:gravel", "default:gravel", "default:gravel"},
+		{"default:gravel", "default:gravel"},
 	}
 })
 minetest.register_craft({
@@ -80,8 +80,8 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'building_blocks:faggot 1',
 	recipe = {
-		{'craft "default:stick"', 'craft "default:stick"'},
-		{'craft "default:stick"', 'craft "default:stick"'},
+		{"default:stick", "default:stick"},
+		{"default:stick", "default:stick"},
 	}
 })
 minetest.register_craft({

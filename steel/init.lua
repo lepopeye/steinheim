@@ -72,7 +72,8 @@ minetest.register_node("steel:roofing", {
 	walkable = false,
 	selection_box = {
 		type = "fixed",
-		--fixed = <default>
+                -- but how to specify the dimensions for curved and sideways rails?
+                fixed = {-1/2, -1/2, -1/2, 1/2, -1/2+1/16, 1/2},
 	},
 	groups = {bendy=2,snappy=1,dig_immediate=2},
 })
@@ -128,9 +129,9 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = 'steel:roofing 6',
+	output = 'steel:roofing 4',
 	recipe = {
-		{'default:steel_ingot', 'default:steel_ingot', 'default:steel_ingot'},
+		{'default:steel_ingot', 'default:steel_ingot'},
 	}
 })
 	--remelting recipes

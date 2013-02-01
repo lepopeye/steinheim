@@ -20,7 +20,7 @@ minetest.register_on_dignode(function(p, node, player)
 				f=false
 			end	
 		end
-		if node.name=="default:leaves" or node.name=="madblocks:leaves_autumn" or node.name=="madblocks:leaves_winter" or node.name=="madblocks:leaves_spring" or node.name=="madblocks:leaves" then
+		if node.name=="default:leaves" or node.name=="farming_plus:cocoa_leaves" or node.name=="farming_plus:banana_leaves" or node.name=="farming_plus:rubber_leaves" then
 			bois=true
 		end
 		fin=(p.y-y)-1
