@@ -340,7 +340,7 @@ minetest.register_craft({
 	output = "moreblocks:sweeper 3",
 	recipe = {
 		{"default:junglegrass"},
-		{"default:Stick"},
+		{"default:stick"},
 	}
 })
 
@@ -408,16 +408,16 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "moreblocks:coalchecker 4",
 	recipe = {
-		{"default:stone", "default:lump_of_coal"},
-		{"default:lump_of_coal", "default:stone"},
+		{"default:stone", "default:coal_lump"},
+		{"default:coal_lump", "default:stone"},
 	}
 })
 
 minetest.register_craft({
 	output = "moreblocks:coalchecker 4",
 	recipe = {
-		{"default:lump_of_coal", "default:stone"},
-		{"default:stone", "default:lump_of_coal"},
+		{"default:coal_lump", "default:stone"},
+		{"default:stone", "default:coal_lump"},
 	}
 })
 
@@ -456,7 +456,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "moreblocks:coalglass 1",
 	recipe = {
-		{"default:lump_of_coal"},
+		{"default:coal_lump"},
 		{"default:glass"},
 	}
 })
@@ -482,7 +482,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "moreblocks:coalstone 1",
 	type = "shapeless",
-	recipe = {"default:lump_of_coal", "default:stone"},
+	recipe = {"default:coal_lump", "default:stone"},
 })
 
 minetest.register_craft({
@@ -504,7 +504,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "moreblocks:ironstone 1",
 	type = "shapeless",
-	recipe = {"default:lump_of_iron", "default:stone"},
+	recipe = {"default:iron_lump", "default:stone"},
 })
 
 minetest.register_craft({
@@ -534,18 +534,18 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "moreblocks:oerkkiblock 9",
 	recipe = {
-		{"default:lump_of_iron", "default:lump_of_coal", "default:lump_of_iron"},
-		{"default:lump_of_coal", "default:bookshelf", "default:lump_of_coal"},
-		{"default:lump_of_iron", "default:lump_of_coal", "default:lump_of_iron"},
+		{"default:iron_lump", "default:coal_lump", "default:iron_lump"},
+		{"default:coal_lump", "default:bookshelf", "default:coal_lump"},
+		{"default:iron_lump", "default:coal_lump", "default:iron_lump"},
 	}
 })
 
 minetest.register_craft({
 	output = "moreblocks:oerkkiblock 9",
 	recipe = {
-		{"default:lump_of_coal", "default:lump_of_iron", "default:lump_of_coal"},
-		{"default:lump_of_iron", "default:bookshelf", "default:lump_of_iron"},
-		{"default:lump_of_coal", "default:lump_of_iron", "default:lump_of_coal"},
+		{"default:coal_lump", "default:iron_lump", "default:coal_lump"},
+		{"default:iron_lump", "default:bookshelf", "default:iron_lump"},
+		{"default:coal_lump", "default:iron_lump", "default:coal_lump"},
 	}
 })
 
@@ -554,7 +554,7 @@ minetest.register_craft({
 	recipe = {
 		{"default:leaves", "default:leaves", "default:leaves"},
 		{"default:leaves", "default:leaves", "default:leaves"},
-		{"", "default:Stick", ""},
+		{"", "default:stick", ""},
 	}
 })
 
