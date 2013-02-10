@@ -1181,6 +1181,7 @@ minetest.register_node("riventest:chain", {
 	walkable = false,
 	climbable = true,
 	buildable_to = true,
+	drop = "",
 	groups = {snappy=2,dig_immediate=3},
 	sounds = default.node_sound_wood_defaults(),
 	after_place_node = extend_chain,
