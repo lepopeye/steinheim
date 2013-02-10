@@ -144,7 +144,6 @@ minetest.register_node("mesecons_pistons:piston_normal_off", {
 
 -- onstate
 minetest.register_node("mesecons_pistons:piston_normal_on", {
-	description = "Piston",
 	drawtype = "nodebox",
 	tiles = {
 		"mesecons_piston_top.png", 
@@ -154,6 +153,8 @@ minetest.register_node("mesecons_pistons:piston_normal_on", {
 		"mesecons_piston_back.png", 
 		"mesecons_piston_on_front.png"
 		},
+	inventory_image = "mesecons_piston_top.png",
+	wield_image = "mesecons_piston_top.png",
 	groups = {cracky = 3, not_in_creative_inventory = 1},
 	paramtype = "light",
 	paramtype2 = "facedir",
@@ -222,7 +223,6 @@ minetest.register_node("mesecons_pistons:piston_sticky_off", {
 
 -- onstate
 minetest.register_node("mesecons_pistons:piston_sticky_on", {
-	description = "Sticky Piston",
 	drawtype = "nodebox",
 	tiles = {
 		"mesecons_piston_top.png", 
@@ -232,6 +232,8 @@ minetest.register_node("mesecons_pistons:piston_sticky_on", {
 		"mesecons_piston_back.png", 
 		"mesecons_piston_on_front.png"
 		},
+	inventory_image = "mesecons_piston_top.png",
+	wield_image = "mesecons_piston_top.png",
 	groups = {cracky = 3, not_in_creative_inventory = 1},
 	paramtype = "light",
 	paramtype2 = "facedir",
@@ -305,6 +307,8 @@ minetest.register_node("mesecons_pistons:piston_up_normal_off", {
 		"mesecons_piston_bottom.png", 
 		"mesecons_piston_top.png^[transformR180", 
 		},
+	inventory_image = "mesecons_piston_top.png",
+	wield_image = "mesecons_piston_top.png",
 	groups = {cracky = 3, not_in_creative_inventory = 1},
 	paramtype2 = "facedir",
 	drop = "mesecons_pistons:piston_normal_off",
@@ -325,6 +329,8 @@ minetest.register_node("mesecons_pistons:piston_up_normal_on", {
 		"mesecons_piston_bottom.png", 
 		"mesecons_piston_top.png^[transformR180", 
 		},
+	inventory_image = "mesecons_piston_top.png",
+	wield_image = "mesecons_piston_top.png",
 	groups = {cracky = 3, not_in_creative_inventory = 1},
 	paramtype = "light",
 	paramtype2 = "facedir",
@@ -381,6 +387,8 @@ minetest.register_node("mesecons_pistons:piston_up_sticky_off", {
 		"mesecons_piston_top.png^[transformR180", 
 		"mesecons_piston_tb.png"
 		},
+	inventory_image = "mesecons_piston_top.png",
+	wield_image = "mesecons_piston_top.png",
 	groups = {cracky = 3, not_in_creative_inventory = 1},
 	paramtype2 = "facedir",
 	drop = "mesecons_pistons:piston_sticky_off",
@@ -401,6 +409,8 @@ minetest.register_node("mesecons_pistons:piston_up_sticky_on", {
 		"mesecons_piston_bottom.png", 
 		"mesecons_piston_top.png^[transformR180", 
 		},
+	inventory_image = "mesecons_piston_top.png",
+	wield_image = "mesecons_piston_top.png",
 	groups = {cracky = 3, not_in_creative_inventory = 1},
 	paramtype = "light",
 	paramtype2 = "facedir",
@@ -475,6 +485,8 @@ minetest.register_node("mesecons_pistons:piston_down_normal_off", {
 		"mesecons_piston_bottom.png^[transformR180", 
 		"mesecons_piston_top.png", 
 		},
+	inventory_image = "mesecons_piston_top.png",
+	wield_image = "mesecons_piston_top.png",
 	groups = {cracky = 3, not_in_creative_inventory = 1},
 	paramtype2 = "facedir",
 	drop = "mesecons_pistons:piston_normal_off",
@@ -495,6 +507,8 @@ minetest.register_node("mesecons_pistons:piston_down_normal_on", {
 		"mesecons_piston_bottom.png^[transformR180", 
 		"mesecons_piston_top.png", 
 		},
+	inventory_image = "mesecons_piston_top.png",
+	wield_image = "mesecons_piston_top.png",
 	groups = {cracky = 3, not_in_creative_inventory = 1},
 	paramtype = "light",
 	paramtype2 = "facedir",
@@ -547,6 +561,8 @@ minetest.register_node("mesecons_pistons:piston_down_sticky_off", {
 		"mesecons_piston_bottom.png^[transformR180", 
 		"mesecons_piston_top.png", 
 		},
+	inventory_image = "mesecons_piston_top.png",
+	wield_image = "mesecons_piston_top.png",
 	groups = {cracky = 3, not_in_creative_inventory = 1},
 	paramtype2 = "facedir",
 	drop = "mesecons_pistons:piston_sticky_off",
@@ -567,6 +583,8 @@ minetest.register_node("mesecons_pistons:piston_down_sticky_on", {
 		"mesecons_piston_bottom.png^[transformR180", 
 		"mesecons_piston_top.png", 
 		},
+	inventory_image = "mesecons_piston_top.png",
+	wield_image = "mesecons_piston_top.png",
 	groups = {cracky = 3, not_in_creative_inventory = 1},
 	paramtype = "light",
 	paramtype2 = "facedir",
@@ -672,7 +690,7 @@ mesecon:register_mvps_stopper("mesecons_pistons:piston_down_sticky_on", piston_u
 
 --craft recipes
 minetest.register_craft({
-	output = '"mesecons_pistons:piston_normal" 2',
+	output = 'mesecons_pistons:piston_normal_off 2',
 	recipe = {
 		{"default:wood", "default:wood", "default:wood"},
 		{"default:cobble", "default:steel_ingot", "default:cobble"},
@@ -681,9 +699,9 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "mesecons_pistons:piston_sticky",
+	output = "mesecons_pistons:piston_sticky_off",
 	recipe = {
 		{"mesecons_materials:glue"},
-		{"mesecons_pistons:piston_normal"},
+		{"mesecons_pistons:piston_normal_off"},
 	}
 })
