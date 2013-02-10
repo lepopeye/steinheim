@@ -8,7 +8,7 @@ Licence GPLv2 or later for code
 -- N'oubliez pas , si il y a une autre annonce derrier
 local lesmessage=	{
 					{"Astuce : Pour effacer des items, veuillez les mettres dans votre main et taper /pulverize"},
-					{"Astuce : Il y a un système de commerce au-dessus du spawn."},
+					{"Astuce : Il y a un systeme de commerce au-dessus du spawn."},
 					{"Forum : http://steinheim.xooit.fr"}
 					}
 local timer = 0
