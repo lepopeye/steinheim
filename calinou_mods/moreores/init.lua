@@ -1,3 +1,5 @@
+print("[moreores] loaded.")
+
 --[[
 ****
 More Ores
