@@ -1,5 +1,8 @@
 --simplewall by turbogus
 
+-- code licence gpl v2 ou superieur
+-- graphisme sous licence CC-BY-NC-SA
+
 --simplewall_bitume
 minetest.register_craft({
 	output = 'node "simplewall:bitume" 49',

@@ -1,6 +1,7 @@
 -- Sève
 --
--- Licence GPL
+-- code licence gpl v2 ou superieur
+-- graphisme sous licence CC-BY-NC-SA
 -- 
 -- Par Jat et Turbogus
 --

@@ -1,7 +1,8 @@
 --CUISINE
 
 -- mod créé par turbogus
---graphisme et code licence gpl v2 ou superieur
+-- code licence gpl v2 ou superieur
+-- graphisme sous licence CC-BY-NC-SA
 
 --Mod pour creer des blocs en forme d'element de cuisine utilisable comme chest.
 
