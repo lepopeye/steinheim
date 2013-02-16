@@ -1,3 +1,11 @@
 [submodule "farming"]
 path = farming
 url = git://github.com/PilzAdam/farming.git
+
+[submodule "deco"]
+path = deco
+url = git://github.com/turbogus/deco.git
+
+[submodule "dirt"]
+path = dirt
+url = git://github.com/turbogus/dirt.git
