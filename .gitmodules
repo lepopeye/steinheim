@@ -19,3 +19,6 @@
 [submodule "holo"]
 	path = holo
 	url = git://github.com/Jat15/holo.git
+[submodule "mesecons"]
+	path = mesecons
+	url = git://github.com/Jeija/minetest-mod-mesecons.git
