@@ -13,9 +13,6 @@
 [submodule "farming_plus"]
 	path = farming_plus
 	url = git://github.com/PilzAdam/farming_plus.git
-[submodule "calinou_mods"]
-	path = calinou_mods
-	url = git://github.com/Calinou/calinou_mods.git
 [submodule "holo"]
 	path = holo
 	url = git://github.com/Jat15/holo.git
