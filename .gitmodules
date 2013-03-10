@@ -22,3 +22,6 @@
 [submodule "simplewall"]
 	path = simplewall
 	url = git://github.com/turbogus/simplewall.git
+[submodule "corbeille"]
+	path = corbeille
+	url = git://github.com/Jat15/corbeille.git
