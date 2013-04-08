@@ -1,5 +1,11 @@
 ******
 
+08/04/2013
+
+- mise à jour des mods
+
+******
+
 12/03/2013
 
 - mise en place de corbeille
@@ -22,3 +28,4 @@
 - suppression du fichier rollback du serveur
 
 ******
+
