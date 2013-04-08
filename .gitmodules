@@ -4,9 +4,6 @@
 [submodule "deco"]
 	path = deco
 	url = git://github.com/turbogus/deco.git
-[submodule "dirt"]
-	path = dirt
-	url = git://github.com/turbogus/dirt.git
 [submodule "carts"]
 	path = carts
 	url = git://github.com/PilzAdam/carts.git
