@@ -93,16 +93,16 @@ minetest.register_entity("mini_economique:rotation", {
 		visual_size = {x=0.30, y=0.30},
 		is_visible = true,
 	},
-	poscube = "",
+	poscube = {},
 	set_item = function(self, itemstring)
 		self.poscube = itemstring
 	end,
 	on_activate = function(self, staticdata)
-		self.poscube = staticdata
+		self.poscube = minetest.deserialize(staticdata)
 		self.object:set_armor_groups({immortal=1})
 	end,
 	get_staticdata = function(self)
-		return self.poscube
+		return minetest.serialize(self.poscube)
 	end,
 	on_punch = function(self, hitter)
 		self.object:remove()
@@ -115,7 +115,6 @@ minetest.register_entity("mini_economique:rotation", {
 		else
 			minetest.env:get_meta(pos):set_int("p",1)
 		end
-		minetest.env:punch_node(pos)
 		minetest.env:punch_node(pos)
 	end,
 })
@@ -132,16 +131,16 @@ minetest.register_entity("mini_economique:buy", {
 		visual_size = {x=0.30, y=0.30},
 		is_visible = true,
 	},
-	poscube = "",
+	poscube = {},
 	set_item = function(self, itemstring)
 		self.poscube = itemstring
 	end,
 	on_activate = function(self, staticdata)
-		self.poscube = staticdata
+		self.poscube = minetest.deserialize(staticdata)
 		self.object:set_armor_groups({immortal=1})
 	end,
 	get_staticdata = function(self)
-		return self.poscube
+		return minetest.serialize(self.poscube)
 	end,
 	on_punch = function(self, hitter)
 		self.object:remove()
