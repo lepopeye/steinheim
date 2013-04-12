@@ -25,3 +25,6 @@
 [submodule "worldedit"]
 	path = worldedit
 	url = git://github.com/Uberi/MineTest-WorldEdit.git
+[submodule "plantlife"]
+	path = plantlife
+	url = git://github.com/VanessaE/plantlife.git

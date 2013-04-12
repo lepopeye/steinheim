@@ -1,0 +1,1 @@
+minetest.register_alias("obsidian:obsidian_block", "default:obsidian")
