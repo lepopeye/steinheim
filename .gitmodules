@@ -28,3 +28,6 @@
 [submodule "plantlife"]
 	path = plantlife
 	url = git://github.com/VanessaE/plantlife.git
+[submodule "fluide"]
+	path = fluide
+	url = git://github.com/turbogus/fluide.git
