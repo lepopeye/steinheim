@@ -31,3 +31,6 @@
 [submodule "fluide"]
 	path = fluide
 	url = git://github.com/turbogus/fluide.git
+[submodule "calinou_mods"]
+	path = calinou_mods
+	url = git://github.com/Calinou/calinou_mods.git
