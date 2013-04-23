@@ -1,9 +1,6 @@
 [submodule "farming"]
 	path = farming
 	url = git://github.com/PilzAdam/farming.git
-[submodule "deco"]
-	path = deco
-	url = git://github.com/turbogus/deco.git
 [submodule "carts"]
 	path = carts
 	url = git://github.com/PilzAdam/carts.git
