@@ -1,4 +1,4 @@
-local old_nodes = {"hydro:wild_tomato","hydro:wild_peas","hydro:wild_habanero","hydro:wild_grapes","hydro:wild_coffee","hydro:wild_roses"}
+local old_nodes = {"hydro:wild_tomato","hydro:wild_peas","hydro:wild_habanero","hydro:wild_grapes","hydro:wild_coffee","hydro:wild_roses","flowers:flower_cotton"}
 local old_entities = {}
 
 for _,node_name in ipairs(old_nodes) do
