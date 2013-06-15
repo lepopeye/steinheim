@@ -28,13 +28,9 @@
 [submodule "calinou_mods"]
 	path = calinou_mods
 	url = git://github.com/Calinou/calinou_mods.git
-[submodule "speedwall"]
-	path = speedwall
-	url = git://github.com/turbogus/speedwall.git
 [submodule "dirt"]
 	path = dirt
 	url = git://github.com/turbogus/dirt.git
-
 [submodule "moretrees"]
 	path = moretrees
 	url = git://github.com/VanessaE/moretrees.git
