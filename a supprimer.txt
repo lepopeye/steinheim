@@ -1,2 +1,2 @@
 calinou_mod ? ( intégré dans le jeu )
-farming ( intégré dans le jeu )
+Non car il contient beaucoup plus que ce qui y a de rajouté.(Sont contenu a était mis a la 0.4.6)
