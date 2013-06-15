@@ -34,3 +34,6 @@
 [submodule "moretrees"]
 	path = moretrees
 	url = git://github.com/VanessaE/moretrees.git
+[submodule "speedwall"]
+	path = speedwall
+	url = git://github.com/turbogus/speedwall.git
