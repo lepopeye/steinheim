@@ -34,3 +34,7 @@
 [submodule "speedwall"]
 	path = speedwall
 	url = git://github.com/turbogus/speedwall.git
+[submodule "dirt"]
+	path = dirt
+	url = git://github.com/turbogus/dirt.git
+
