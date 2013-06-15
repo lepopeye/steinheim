@@ -35,3 +35,6 @@
 	path = dirt
 	url = git://github.com/turbogus/dirt.git
 
+[submodule "moretrees"]
+	path = moretrees
+	url = git://github.com/VanessaE/moretrees.git
