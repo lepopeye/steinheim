@@ -31,3 +31,6 @@
 [submodule "calinou_mods"]
 	path = calinou_mods
 	url = git://github.com/Calinou/calinou_mods.git
+[submodule "speedwall"]
+	path = speedwall
+	url = git://github.com/turbogus/speedwall.git
