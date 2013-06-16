@@ -945,7 +945,7 @@ METALLIKE = function(nodeid, nodename,fence)
 	minetest.register_node("riventest:"..nodeid, {
 		description = nodename,
 		tiles = {"riventest_"..nodeid..".png"},
-		inventory_image = minetest.inventorycube("riventest_"..nodeid..".png"),
+		--inventory_image = minetest.inventorycube("riventest_"..nodeid..".png"),
 		is_ground_content = true,
 		groups = {cracky=3},
 		sounds = default.node_sound_wood_defaults(),
