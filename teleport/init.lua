@@ -1,29 +1,32 @@
 --[[
 Teleport ver 0.9 par Jat
 Licence GPLv2 or later for code
-Licence CC-BY-SA for image
+Licence WTFPL for image
+teleport_pierre_*.png and teleport_portail*.png by AndrOn
 --]]
 
+--Chargée le fichier configuration
+dofile(minetest.get_modpath("teleport").."/conf.lua")
+
 --Variable
-----A configure a la premiere execution
-local serveur = {x=0,y=997,z=0}
-----A configure
-local duree_vortex = 30
 ----Fixe
 local couleurs = {"black","blue","brown","cyan","dark_green","dark_grey","green","grey","magenta","orange","pink","red","violet","white","yellow"}
 local timer=0
+local version=18062013
 
---Initialisation (A supprimé aprés premiere execution)
-
---[[
+--Engistre dans le cube la version teleport qui est utilisé
 local place=true
 minetest.register_globalstep(function(dtime)
 	if place then
-		minetest.env:add_node(serveur, {name="teleport:serveur"})
-		place=false
+		mversion=minetest.env:get_meta(TELEPORT_SERVEUR):get_int("version")
+		if mversion==nil or mversion<version then
+			mversion=minetest.env:get_meta(TELEPORT_SERVEUR):set_int("version",version)
+		end
 	end
 end)
---]]
+
+
+
 
 --Function
 
@@ -44,9 +47,9 @@ minetest.register_globalstep(function(dtime)
 		return
 	end
 	timer = 0
-	local tempo=minetest.deserialize(minetest.env:get_meta(serveur):get_string("lestempo"))
+	local tempo=minetest.deserialize(minetest.env:get_meta(TELEPORT_SERVEUR):get_string("lestempo"))
 	for pos,v in pairs(tempo) do 
-		if os.difftime(os.time(),v)>duree_vortex or os.difftime(os.time(),v)<0 then
+		if os.difftime(os.time(),v)>TELEPORT_DUREE_VORTEX or os.difftime(os.time(),v)<0 then
 			local portail=minetest.deserialize(minetest.env:get_meta(pos):get_string("portail"))
 			if not(portail==nil) then
 				for c=1,table.getn(portail) do
@@ -56,7 +59,7 @@ minetest.register_globalstep(function(dtime)
 			tempo[pos]=nil
 		end
 	end
-	minetest.env:get_meta(serveur):set_string("lestempo",minetest.serialize(tempo))
+	minetest.env:get_meta(TELEPORT_SERVEUR):set_string("lestempo",minetest.serialize(tempo))
 end)
 
 --Serveur central
@@ -69,6 +72,7 @@ minetest.register_node("teleport:serveur", {
     pointable = true,
 	groups = {unbreakable=1},
 	on_construct = function(pos)
+		minetest.env:get_meta(pos):set_int("version",version)
 		minetest.env:get_meta(pos):set_string("lesadresse",minetest.serialize({}))
 		minetest.env:get_meta(pos):set_string("lestempo",minetest.serialize({}))
 	end,
@@ -192,10 +196,10 @@ minetest.register_node("teleport:socle", {
 	on_destruct = function(pos)
 		local adresse = minetest.deserialize(minetest.env:get_meta(pos):get_string("adresse"))
 		local socle = minetest.deserialize(minetest.env:get_meta(pos):get_string("lessocle"))
-		local serveuradresse = minetest.deserialize(minetest.env:get_meta(serveur):get_string("lesadresse"))
+		local serveuradresse = minetest.deserialize(minetest.env:get_meta(TELEPORT_SERVEUR):get_string("lesadresse"))
 		if not(adresse[1]=="" or adresse[2]=="" or adresse[3]=="" or adresse[4]=="") then
 			serveuradresse[""..adresse[1]..","..adresse[2]..","..adresse[3]..","..adresse[4]..""] = nil
-			minetest.env:get_meta(serveur):set_string("lesadresse",minetest.serialize(serveuradresse))
+			minetest.env:get_meta(TELEPORT_SERVEUR):set_string("lesadresse",minetest.serialize(serveuradresse))
 		end		
 		for i=1,table.getn(socle) do
 			if not(socle[i]=="") then
@@ -319,7 +323,7 @@ minetest.register_node("teleport:pierremulticouleur", {
 --Craft
 minetest.register_node("teleport:pierre", {
 	description = "Pierre vide",
-	tiles = {"default_cobble.png"},
+	tiles = {"teleport_pierre_d.png","teleport_pierre_d.png","teleport_pierre_cote.png","teleport_pierre_cote.png","teleport_pierre_cote.png","teleport_pierre_cote.png"},
 	is_ground_content = false,
 	walkable = true,
 	pointable = true,
@@ -337,7 +341,7 @@ for i = 1,table.getn(couleurs) do
 	--Pierre
 	minetest.register_node("teleport:pierre"..couleurs[i].."", {
 		description = "Pierre de couleur "..couleurs[i].."",
-		tiles = {"default_cobble.png^dye_"..couleurs[i]..".png"},
+		tiles = {"teleport_pierre_d.png","teleport_pierre_d.png","teleport_pierre_cote.png^dye_"..couleurs[i]..".png","teleport_pierre_cote.png^dye_"..couleurs[i]..".png","teleport_pierre_cote.png^dye_"..couleurs[i]..".png","teleport_pierre_cote.png^dye_"..couleurs[i]..".png"},
 		is_ground_content = false,
 		walkable = true,
 		pointable = true,
@@ -348,7 +352,7 @@ for i = 1,table.getn(couleurs) do
 				local possocle = minetest.deserialize(minetest.env:get_meta(autour):get_string("position"))
 				local adressecompose = minetest.deserialize(minetest.env:get_meta(possocle):get_string("adressecompose"))
 				local adresse = minetest.deserialize(minetest.env:get_meta(possocle):get_string("adresse"))
-				local serveuradresse = minetest.deserialize(minetest.env:get_meta(serveur):get_string("lesadresse"))
+				local serveuradresse = minetest.deserialize(minetest.env:get_meta(TELEPORT_SERVEUR):get_string("lesadresse"))
 				local lessocle=minetest.deserialize(minetest.env:get_meta(possocle):get_string("lessocle"))
 				adressecompose[minetest.env:get_meta(autour):get_int("numero")]="teleport:pierre"..couleurs[i]..""
 				minetest.env:get_meta(possocle):set_string("adressecompose",minetest.serialize(adressecompose))
@@ -363,7 +367,7 @@ for i = 1,table.getn(couleurs) do
 						minetest.env:get_meta(possocle):set_string("adresse",minetest.serialize(adresse))
 						--Envoie au  serveur
 						serveuradresse[""..adressecompose[2]..","..adressecompose[3]..","..adressecompose[4]..","..adressecompose[5]..""] = possocle
-						minetest.env:get_meta(serveur):set_string("lesadresse",minetest.serialize(serveuradresse))
+						minetest.env:get_meta(TELEPORT_SERVEUR):set_string("lesadresse",minetest.serialize(serveuradresse))
 						--Suppression des pierre
 						minetest.env:remove_node(allentour(possocle,{adressecompose[1]}))
 						minetest.env:remove_node(allentour(lessocle[1],{adressecompose[2]}))
@@ -375,7 +379,7 @@ for i = 1,table.getn(couleurs) do
 						local possoclereception = serveuradresse[""..adressecompose[2]..","..adressecompose[3]..","..adressecompose[4]..","..adressecompose[5]..""]
 						if not(adresse[1]==adressecompose[2] and adresse[2]==adressecompose[3] and adresse[3]==adressecompose[4] and adresse[4]==adressecompose[5]) then
 							--Si les deux point sont pas les meme
-							local tempo=minetest.deserialize(minetest.env:get_meta(serveur):get_string("lestempo"))
+							local tempo=minetest.deserialize(minetest.env:get_meta(TELEPORT_SERVEUR):get_string("lestempo"))
 							local porte=true
 							--Verifie que les portail sont pas occupé
 							for pos,v in pairs(tempo) do
@@ -399,7 +403,7 @@ for i = 1,table.getn(couleurs) do
 								--Temp
 								tempo[possocle]=os.time()
 								tempo[possoclereception]=os.time()
-								minetest.env:get_meta(serveur):set_string("lestempo",minetest.serialize(tempo))
+								minetest.env:get_meta(TELEPORT_SERVEUR):set_string("lestempo",minetest.serialize(tempo))
 								--Suppression des pierre
 								for c=1,4 do
 									if 25==math.random(1,50) then	
@@ -433,7 +437,7 @@ for i = 1,table.getn(couleurs) do
 		pointable = true,
 		groups = {unbreakable=1},
 		on_construct = function(pos)
-			minetest.env:get_node_timer(pos):start(duree_vortex)
+			minetest.env:get_node_timer(pos):start(TELEPORT_DUREE_VORTEX)
 		end,
 		on_timer = function(pos,elapsed)
 			minetest.env:add_node(pos, {name="teleport:signalisation"})
