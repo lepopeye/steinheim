@@ -37,3 +37,6 @@
 [submodule "zcg"]
 	path = zcg
 	url = git://github.com/Zeg9/minetest-zcg.git
+[submodule "inventory_plus"]
+	path = inventory_plus
+	url = git://github.com/Zeg9/minetest-inventory_plus.git
