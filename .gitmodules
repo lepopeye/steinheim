@@ -34,3 +34,6 @@
 [submodule "speedwall"]
 	path = speedwall
 	url = git://github.com/turbogus/speedwall.git
+[submodule "zcg"]
+	path = zcg
+	url = git://github.com/Zeg9/minetest-zcg.git
