@@ -40,3 +40,6 @@
 [submodule "inventory_plus"]
 	path = inventory_plus
 	url = git://github.com/Zeg9/minetest-inventory_plus.git
+[submodule "pipeworks"]
+	path = pipeworks
+	url = https://github.com/VanessaE/pipeworks
