@@ -43,3 +43,6 @@
 [submodule "pipeworks"]
 	path = pipeworks
 	url = https://github.com/VanessaE/pipeworks
+[submodule "teleport"]
+	path = teleport
+	url = git://github.com/Jat15/teleport.git
