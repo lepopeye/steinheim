@@ -46,3 +46,6 @@
 [submodule "teleport"]
 	path = teleport
 	url = git://github.com/Jat15/teleport.git
+[submodule "mini_economique"]
+	path = mini_economique
+	url = git://github.com/Jat15/economique.git
