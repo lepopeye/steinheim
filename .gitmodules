@@ -49,3 +49,9 @@
 [submodule "mini_economique"]
 	path = mini_economique
 	url = git://github.com/Jat15/economique.git
+[submodule "boats"]
+	path = boats
+	url = https://github.com/PilzAdam/boats.git
+
+
+
