@@ -52,8 +52,9 @@
 [submodule "boats"]
 	path = boats
 	url = git://github.com/PilzAdam/boats.git
-
-
 [submodule "soccer"]
 	path = soccer
 	url = git://github.com/kaeza/minetest-soccer.git
+[submodule "minetest-steel"]
+	path = minetest-steel
+	url = https://github.com/Zeg9/minetest-steel.git
