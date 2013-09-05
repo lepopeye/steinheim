@@ -61,3 +61,6 @@
 [submodule "siderurgie"]
 	path = siderurgie
 	url = https://github.com/turbogus/siderurgie.git
+[submodule "deco"]
+	path = deco
+	url = git://github.com/turbogus/deco.git
