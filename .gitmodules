@@ -19,9 +19,6 @@
 [submodule "plantlife"]
 	path = plantlife
 	url = git://github.com/VanessaE/plantlife.git
-[submodule "calinou_mods"]
-	path = calinou_mods
-	url = git://github.com/Calinou/calinou_mods.git
 [submodule "dirt"]
 	path = dirt
 	url = git://github.com/turbogus/dirt.git
