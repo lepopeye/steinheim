@@ -73,3 +73,6 @@
 [submodule "farming_plus"]
 	path = farming_plus
 	url = git://github.com/Jat15/farming_plus.git
+[submodule "beer"]
+	path = beer
+	url = git://github.com/Jat15/beer.git
