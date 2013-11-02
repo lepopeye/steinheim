@@ -58,9 +58,6 @@
 [submodule "fluide"]
 	path = fluide
 	url = https://github.com/turbogus/fluide.git
-[submodule "boats_modif"]
-	path = boats_modif
-	url = https://github.com/Zaraki98/nboats.git
 [submodule "maptools"]
 	path = maptools
 	url = git://github.com/Calinou/maptools
