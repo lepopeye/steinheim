@@ -73,3 +73,6 @@
 [submodule "beer"]
 	path = beer
 	url = git://github.com/Jat15/beer.git
+[submodule "homedecor"]
+	path = homedecor
+	url = git://github.com/VanessaE/homedecor
