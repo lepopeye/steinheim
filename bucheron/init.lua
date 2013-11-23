@@ -24,34 +24,14 @@ minetest.register_on_dignode(function(p, node, player)
 			bois=true
 		end
 		fin=(p.y-y)-1
-		if bois or not(name=="default:tree") then
-			while p.y>y do
-				minetest.env:remove_node(p)
-				p.y=p.y-1
+		if not(player:get_player_name()=="node_breaker") then
+			if (bois or not(name=="default:tree")) and player:get_inventory():room_for_item('main', name)  then
+				while p.y>y do
+					minetest.env:remove_node(p)
+					p.y=p.y-1
+				end
+				player:get_inventory():add_item('main', ''..name..' '..fin..'')
 			end
-			player:get_inventory():add_item('main', ''..name..' '..fin..'')
 		end
 	end
--- minetest.get_node_drops(n0.name)
---[[
-	if node.name=="default:tree" then
-		local y=p.y
-		local f=true
-		while f do
-			p.y=p.y+1
-			node=minetest.env:get_node(p)
-			if not(node.name == "default:tree") then
-				f=false
-			end	
-		end
-		if node.name=="default:leaves" then
-			local fin=(p.y-y)-1
-			while p.y>y do
-				minetest.env:remove_node(p)
-				p.y=p.y-1
-			end
-			player:get_inventory():add_item('main', 'default:tree '..fin..'')
-		end
-	end
---]]
 end)
