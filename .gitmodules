@@ -76,3 +76,6 @@
 [submodule "homedecor"]
 	path = homedecor
 	url = git://github.com/VanessaE/homedecor
+[submodule "wield3d"]
+	path = wield3d
+	url = git://github.com/stujones11/wield3d
