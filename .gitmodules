@@ -79,3 +79,6 @@
 [submodule "wield3d"]
 	path = wield3d
 	url = git://github.com/stujones11/wield3d
+[submodule "bobblocks"]
+	path = bobblocks
+	url = git://github.com/Jat15/BobBlocks.git
