@@ -1,0 +1,9 @@
+Back = Revenir
+Bag = Sac
+
+Bags = Sacs
+Main = Menu
+
+Small Bag = Petit sac
+Medium Bag = Sac moyen
+Large Bag = Grand sac
