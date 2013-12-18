@@ -12,7 +12,7 @@
 	url = git://github.com/Jat15/corbeille.git
 [submodule "worldedit"]
 	path = worldedit
-	url = git://github.com/Uberi/MineTest-WorldEdit.git
+	url = git://github.com/Uberi/Minetest-WorldEdit.git
 [submodule "plantlife"]
 	path = plantlife
 	url = git://github.com/VanessaE/plantlife.git
