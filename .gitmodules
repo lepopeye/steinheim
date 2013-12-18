@@ -67,9 +67,6 @@
 [submodule "moreores"]
 	path = moreores
 	url = git://github.com/Calinou/moreores
-[submodule "farming_plus"]
-	path = farming_plus
-	url = git://github.com/Jat15/farming_plus.git
 [submodule "beer"]
 	path = beer
 	url = git://github.com/Jat15/beer.git
@@ -82,3 +79,6 @@
 [submodule "bobblocks"]
 	path = bobblocks
 	url = git://github.com/Jat15/BobBlocks.git
+[submodule "farming_plus"]
+	path = farming_plus
+	url = git://github.com/PilzAdam/farming_plus.git
