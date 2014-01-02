@@ -10,7 +10,7 @@ local lesmessage=	{
 					{"Astuce : Pour effacer des items, veuillez les mettres dans votre main et taper /pulverize"},
 					{"Astuce : Il y a un systeme de commerce sur le quai, proche du spawn."},
 					{"Forum : http://steinheim.xooit.fr"},
-					{"Actualite: Les pierre de teleportation seront retie dans une semaine, vous pouvez les echanges au magasin du quai."}
+					{"Actualite: Les pierres de teleportation vont être retirées prochainement, vous pouvez les echanger au magasin du quai."}
 					}
 local timer = 0
 
